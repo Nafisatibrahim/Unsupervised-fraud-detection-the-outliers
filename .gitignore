@@ -28,6 +28,9 @@ results/**/*.pdf
 !.env.example
 kaggle.json
 
+# Personal notes (kept local, not shared across branches)
+notes/
+
 # OS and editor files
 .DS_Store
 Thumbs.db
