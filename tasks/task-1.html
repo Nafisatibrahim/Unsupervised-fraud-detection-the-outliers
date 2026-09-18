@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task 1: Foundations</title>
+<style>
+  :root {
+    --dark: #241019;
+    --accent: #C2185B;
+    --accent-mid: #E91E8C;
+    --light-bg: #FCE4EC;
+    --card-bg: #FFFFFF;
+    --muted: #6a4a56;
+  }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--dark);
+    background: var(--light-bg);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+    line-height: 1.6;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 18px;
+    margin-top: 0;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid var(--accent-mid);
+    margin: 32px 0;
+  }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: var(--accent);
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 6px;
+    margin-top: 40px;
+  }
+  p, li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+  }
+  ul {
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 12px;
+  }
+  li ul {
+    margin-top: 6px;
+  }
+  a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(36,16,25,0.08);
+  }
+  .tag {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-bottom: 8px;
+  }
+  .assignment {
+    background: var(--dark);
+    color: #FBF6F8;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 16px;
+  }
+  .assignment h2 {
+    color: #F8BBD9;
+    border-bottom: 2px solid #3A1928;
+  }
+  .assignment li {
+    color: #FBF6F8;
+  }
+  .updated {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 48px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+  .depiction-card {
+    background: var(--dark);
+    border-radius: 16px;
+    padding: 24px 24px 20px;
+    margin-top: 16px;
+  }
+  .depiction-card svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+  .depiction-caption {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    color: #C58BA5;
+    margin: 12px 4px 0;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../index.html">&larr; Back to home</a>
+
+<h1>Task 1: Foundations, Unsupervised Learning, Anomaly Detection &amp; Isolation Forest</h1>
+<p class="subtitle">Get comfortable with unsupervised learning and anomaly detection, then start digging into Isolation Forest specifically.</p>
+
+<hr>
+
+<h2>Overview</h2>
+<p>This is everyone's first task for the DRP. This week is about getting context, not depth: watch the videos, skim the vignette, and write up a short report. The original Isolation Forest paper and the deeper dive come next week. Everything below is free, no logins or subscriptions required.</p>
+
+<h2>Key Points</h2>
+
+<div class="card">
+  <span class="tag">Video</span>
+  <p style="margin:4px 0 0"><a href="https://www.youtube.com/watch?v=6NueyX_Jcb0">Unsupervised Learning Explained in 10 Minutes</a>, a quick, beginner-friendly overview of what unsupervised learning is and how it differs from supervised learning.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Video</span>
+  <p style="margin:4px 0 0"><a href="https://www.youtube.com/watch?v=kN--TRv1UDY">Outlier &amp; Anomaly Detection using Isolation Forest: What are Anomalies?</a>, connects the general idea of an anomaly directly to how Isolation Forest works.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Read</span>
+  <p style="margin:4px 0 0"><a href="https://cran.r-project.org/web/packages/isotree/vignettes/An_Introduction_to_Isolation_Forests.html">An Introduction to Isolation Forests</a> (David Cortes), an accessible walkthrough of the actual math: path length, the c(n) normalization constant, and the anomaly score formula.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Dataset</span>
+  <p style="margin:4px 0">Load the IEEE-CIS Fraud Detection dataset and explore its structure: which columns are raw vs. anonymized V-features.</p>
+</div>
+
+<div class="assignment">
+  <h2>Assignment 1: Report</h2>
+  <p>This week is about getting context, not depth. By the end of your exploration, you should be able to explain, in your own words:</p>
+  <ul>
+    <li>What is unsupervised learning?</li>
+    <li>What is anomaly detection?</li>
+    <li>What is fraud?</li>
+    <li>Where is anomaly detection used in fraud detection?</li>
+    <li>What are other use cases for anomaly detection, outside of fraud?</li>
+    <li>What are other use cases for unsupervised learning more broadly?</li>
+  </ul>
+  <p>Write this up as a short report. It doesn't need to be long, just clear enough that you could explain each of these to someone else.</p>
+</div>
+
+<div class="card" style="border:2px solid var(--accent-mid)">
+  <span class="tag">Creative task</span>
+  <p style="margin:4px 0 0"><b>Depict what Isolation Forest looks like.</b> Using whatever tool you like, based on your own understanding of how it works, create something that visualizes it: a diagram, a sketch, an animation, a physical model, whatever you want. Be creative and use your imagination, there's no fixed format here.</p>
+</div>
+
+<div class="depiction-card">
+  <span class="tag">My depiction</span>
+  <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animation showing an outlier being isolated in 3 random cuts, while a normal cluster of points takes 8 or more cuts to fully separate.">
+
+    <text x="24" y="38" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#FBF6F8">How Isolation Forest catches outliers</text>
+
+    <text x="24" y="66" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#F8BBD9">
+      <tspan opacity="0">Cut 1 splits the space in two, the outlier already stands apart.</tspan>
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.071;0.085;0.286;0.30;1" dur="14s" repeatCount="indefinite"/>
+    </text>
+    <text x="24" y="66" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#F8BBD9" opacity="0">
+      Cut 2 narrows its box.
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.286;0.30;0.5;0.514;1" dur="14s" repeatCount="indefinite"/>
+    </text>
+    <text x="24" y="66" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#F8BBD9" opacity="0">
+      Cut after cut, normal points stay bunched together.
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.5;0.514;0.714;0.728;1" dur="14s" repeatCount="indefinite"/>
+    </text>
+    <text x="24" y="66" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#F8BBD9" opacity="0">
+      Shorter path to isolate = anomaly. That's the idea behind Isolation Forest.
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.714;0.728;0.964;0.978;1" dur="14s" repeatCount="indefinite"/>
+    </text>
+
+    <g fill="#8FB8FF" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.036;0.05;1" dur="14s" repeatCount="indefinite"/>
+      <circle cx="150" cy="150" r="7"/><circle cx="205" cy="145" r="7"/><circle cx="245" cy="138" r="7"/>
+      <circle cx="281" cy="125" r="7"/><circle cx="159" cy="185" r="7"/><circle cx="219" cy="175" r="7"/>
+      <circle cx="270" cy="165" r="7"/><circle cx="315" cy="160" r="7"/><circle cx="119" cy="200" r="7"/>
+      <circle cx="190" cy="215" r="7"/><circle cx="213" cy="200" r="7"/><circle cx="255" cy="205" r="7"/>
+      <circle cx="300" cy="200" r="7"/><circle cx="350" cy="190" r="7"/><circle cx="139" cy="230" r="7"/>
+      <circle cx="330" cy="235" r="7"/><circle cx="365" cy="230" r="7"/><circle cx="196" cy="260" r="7"/>
+      <circle cx="230" cy="245" r="7"/><circle cx="175" cy="280" r="7"/><circle cx="259" cy="290" r="7"/>
+      <circle cx="289" cy="270" r="7"/>
+    </g>
+
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.036;0.05;1" dur="14s" repeatCount="indefinite"/>
+      <circle cx="650" cy="150" r="26" fill="#E91E8C" opacity="0.25"/>
+      <circle cx="650" cy="150" r="12" fill="#E91E8C"/>
+    </g>
+
+    <g stroke="#C58BA5" stroke-width="3" stroke-linecap="round" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.143;0.157;1" dur="14s" repeatCount="indefinite"/>
+      <line x1="480" y1="90" x2="480" y2="360"/>
+    </g>
+
+    <g stroke="#C58BA5" stroke-width="3" stroke-linecap="round" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.321;0.335;1" dur="14s" repeatCount="indefinite"/>
+      <line x1="480" y1="240" x2="780" y2="240"/>
+    </g>
+
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.536;0.55;1" dur="14s" repeatCount="indefinite"/>
+      <g stroke="#C58BA5" stroke-width="3" stroke-linecap="round">
+        <line x1="230" y1="90" x2="230" y2="240"/>
+        <line x1="20" y1="140" x2="230" y2="140"/>
+        <line x1="20" y1="230" x2="480" y2="230"/>
+      </g>
+      <rect x="560" y="60" width="220" height="180" fill="#E91E8C" fill-opacity="0.08" stroke="#E91E8C" stroke-width="3" stroke-dasharray="8 6"/>
+      <text x="670" y="265" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#E91E8C" text-anchor="middle">3 cuts</text>
+    </g>
+
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.75;0.764;1" dur="14s" repeatCount="indefinite"/>
+      <line x1="140" y1="140" x2="140" y2="230" stroke="#C58BA5" stroke-width="3" stroke-linecap="round"/>
+      <text x="24" y="400" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#8FB8FF">8+ cuts</text>
+    </g>
+
+  </svg>
+  <p class="depiction-caption">My take on it: random cuts isolate the lone point in just 3 splits, while the normal cluster takes 8 or more, since its points keep landing on the same side of each cut. Shorter path to isolation is what makes a point anomalous. Recreated here as a self-contained, looping SVG animation.</p>
+</div>
+
+<h2>Coming up next</h2>
+
+<div class="card">
+  <span class="tag">Next week</span>
+  <p style="margin:4px 0 0">Start reading the original paper: Liu, Ting &amp; Zhou (2008), <a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf">"Isolation Forest"</a>, free PDF hosted by the authors. This is the canonical source; the vignette above gives you the intuition to read it more easily.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Optional reading</span>
+  <p style="margin:4px 0 0"><a href="https://journals.ums.ac.id/index.php/khif/article/view/10520">"Performance Analysis of Isolation Forest Algorithm in Fraud Detection of Credit Card Transactions"</a> (Indra Waspada et al., <i>Khazanah Informatika: Jurnal Ilmu Komputer dan Informatika</i>, 2020). Published in a peer-reviewed journal rather than a preprint, and it uses the IEEE-CIS Fraud Detection dataset, the same one we're using. It's a results/performance paper, not a dense theory paper, reporting straightforward metrics (accuracy 97.4%, AUC-ROC 92.7%) against baselines like logistic regression and SVM, so it reads more easily than a methods-focused paper.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Optional reading</span>
+  <p style="margin:4px 0 0"><a href="https://arxiv.org/pdf/2105.06314">"Explainable Machine Learning for Fraud Detection"</a> (Ismini Psychoula, Andreas Gutmann, Pradip Mainali, S. H. Lee, Paul Dunphy &amp; Fabien A. P. Petitcolas, OneSpan Innovation Centre, Cambridge, UK). A deeper, methods-focused look at making fraud-detection models interpretable.</p>
+</div>
+
+<p class="updated">Last updated: 2026-09-18</p>
+
+</body>
+</html>
