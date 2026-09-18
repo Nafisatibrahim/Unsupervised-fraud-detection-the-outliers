@@ -149,14 +149,35 @@
     font-size: 14px;
     margin-top: 48px;
   }
+  .banner {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    display: block;
+    margin: 20px 0;
+  }
 </style>
 </head>
 <body>
 
 <h1>Beyond Labels: Unsupervised Anomaly Detection for Financial Fraud Detection</h1>
-<p class="subtitle">Research code and materials for the Women in Mathematics Directed Reading Program (WiM DRP), University of Waterloo, Fall 2026. Project team: The Outliers.</p>
+
+<img class="banner" src="assets/fraud_detection_banner.svg" alt="Beyond Labels: Unsupervised Fraud Detection, The Outliers banner">
+
+<p class="subtitle">Research code and materials for the Women in Mathematics Directed Research Program (WiM DRP), University of Waterloo, Fall 2026. Project team: The Outliers.</p>
 
 <hr>
+
+<h2>Project Overview</h2>
+<p>Financial fraud is difficult to identify because fraudulent transactions are rare, evolving, and often poorly represented by reliable labels. This project investigates whether unsupervised anomaly detection can identify potentially fraudulent transactions without using fraud labels during model training.</p>
+<p>We compare two primary methods, Isolation Forest and Local Outlier Factor (LOF), on the IEEE-CIS Fraud Detection dataset. Autoencoders are included as a stretch goal. Labels are withheld during training and are used only after scoring for evaluation and analysis.</p>
+
+<h2>Research Question</h2>
+<ol>
+  <li><b>RQ1:</b> How effectively can Isolation Forest and Local Outlier Factor identify fraudulent transactions in the IEEE-CIS Fraud Detection dataset without using fraud labels during training?</li>
+  <li><b>RQ2:</b> How does detection quality, precision-recall AUC, ROC AUC, and precision at a fixed review budget, compare between the two methods?</li>
+  <li><b>RQ3:</b> How do computational cost and sensitivity to preprocessing and contamination-rate assumptions compare between the two methods?</li>
+</ol>
 
 <h2>Tasks</h2>
 <p>Weekly tasks for the DRP, in order.</p>
@@ -164,18 +185,10 @@
 <a class="task-card" href="tasks/task-1.html">
   <span class="tag">Task 1</span>
   <h3>Foundations: Unsupervised Learning, Anomaly Detection &amp; Isolation Forest</h3>
-  <p>Get comfortable with unsupervised learning and anomaly detection, then start digging into Isolation Forest specifically.</p>
+  <p>Get comfortable with unsupervised learning and anomaly detection, then start exploring Isolation Forest specifically.</p>
 </a>
 
 <div class="task-placeholder">More tasks will appear here as they're added.</div>
-
-<h2>Project Overview</h2>
-<p>Financial fraud is difficult to identify because fraudulent transactions are rare, evolving, and often poorly represented by reliable labels. This project investigates whether unsupervised anomaly detection can identify potentially fraudulent transactions without using fraud labels during model training.</p>
-<p>We compare two primary methods, Isolation Forest and Local Outlier Factor (LOF), across three financial transaction datasets. Autoencoders are included as a stretch goal. Labels are withheld during training and are used only after scoring for evaluation and analysis.</p>
-
-<h2>Research Question</h2>
-<p>How effectively can unsupervised anomaly detection methods identify financial fraud across datasets with different transaction structures, class imbalance, and feature distributions?</p>
-<p>The comparison will consider detection quality, computational cost, sensitivity to preprocessing and contamination assumptions, and how consistently each method transfers across datasets.</p>
 
 <h2>Methods</h2>
 
@@ -194,77 +207,8 @@
   <p style="margin:4px 0 0">An autoencoder is a neural network trained to reconstruct predominantly normal transaction data. A large reconstruction error can indicate an anomalous transaction. This method will be implemented if time and compute resources permit.</p>
 </div>
 
-<h2>Datasets</h2>
-<p>The project uses the following Kaggle datasets:</p>
-<ol>
-  <li><b>ULB Credit Card Fraud Detection</b>: anonymized European card transactions with a highly imbalanced fraud label.</li>
-  <li><b>IEEE-CIS Fraud Detection</b>: identity and transaction features from an e-commerce fraud detection competition.</li>
-  <li><b>PaySim</b>: synthetic mobile money transactions with transaction-type, account-balance, and fraud fields.</li>
-</ol>
-<p>Download instructions, expected Kaggle identifiers, and data-handling notes are in <a href="data/README.md">data/README.md</a>. Raw data is not committed to this repository. During training, remove or withhold the target label and any direct leakage features; restore the labels only for post-hoc evaluation.</p>
-
-<h2>Repository Structure</h2>
-<pre><code>.
-├── README.md
-├── index.html
-├── requirements.txt
-├── .gitignore
-├── data/
-│   └── README.md
-├── tasks/
-│   └── task-1.html
-├── notebooks/
-│   ├── isolation_forest/
-│   ├── lof/
-│   └── autoencoders/
-├── results/
-│   ├── isolation_forest/
-│   ├── lof/
-│   └── autoencoders/
-└── paper/</code></pre>
-<p>Notebook directories contain exploratory analysis and experiments for each method. Results directories contain generated figures, metrics, and tables. The paper directory contains drafts, references, and final research materials.</p>
-
-<h2>Setup</h2>
-<p>Python 3.10 or newer is recommended.</p>
-<pre><code>git clone &lt;repository-url&gt;
-cd unsupervised-fraud-detection-the-outliers
-python -m venv .venv</code></pre>
-<p>Activate the environment:</p>
-<pre><code># macOS/Linux
-source .venv/bin/activate
-
-# Windows PowerShell
-.venv\Scripts\Activate.ps1</code></pre>
-<p>Install the dependencies:</p>
-<pre><code>python -m pip install --upgrade pip
-pip install -r requirements.txt</code></pre>
-<p>Configure Kaggle credentials according to the Kaggle documentation before downloading data. Then follow <a href="data/README.md">data/README.md</a>. Kaggle credentials must never be committed.</p>
-
-<h2>Running the Code</h2>
-<p>Start Jupyter from the repository root:</p>
-<pre><code>jupyter lab</code></pre>
-<p>Run notebooks in this order for each method:</p>
-<ol>
-  <li>Load and inspect the selected dataset.</li>
-  <li>Separate labels and exclude leakage-prone columns.</li>
-  <li>Fit preprocessing transformations on the training features only.</li>
-  <li>Train the anomaly detector without labels.</li>
-  <li>Save scores and predictions under the matching <code>results/</code> directory.</li>
-  <li>Evaluate against the withheld labels using metrics such as precision-recall AUC, ROC AUC, precision at a fixed review budget, recall, and the confusion matrix.</li>
-</ol>
-<p>Keep dataset-specific experiments and outputs clearly named. Because the datasets differ in scale and feature availability, compare methods both within each dataset and across appropriate normalized summaries.</p>
-
-<h2>Reproducibility Notes</h2>
-<ul>
-  <li>Record random seeds, feature-selection decisions, preprocessing steps, model parameters, and contamination or threshold choices.</li>
-  <li>Do not tune models against labels during the unsupervised training phase.</li>
-  <li>Treat labels as an evaluation artifact and document every post-hoc thresholding rule.</li>
-  <li>Save environment and experiment details with result files where practical.</li>
-</ul>
-
-<h2>Team</h2>
-<p><b>The Outliers</b> is the mentee team for the Women in Mathematics Directed Reading Program at the University of Waterloo, Fall 2026.</p>
-<p>Project focus: unsupervised learning, anomaly detection, and responsible evaluation for financial fraud detection.</p>
+<h2>Dataset</h2>
+<p>The project uses the <b><a href="https://www.kaggle.com/competitions/ieee-fraud-detection">IEEE-CIS Fraud Detection</a></b> dataset from Kaggle: identity and transaction features from an e-commerce fraud detection competition.</p>
 
 <h2>License</h2>
 <p>See <a href="LICENSE">LICENSE</a> for the repository license. Dataset licenses and terms are determined by the respective Kaggle dataset owners and must be reviewed before redistribution.</p>

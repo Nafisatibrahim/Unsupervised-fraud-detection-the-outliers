@@ -7,13 +7,13 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-autoencoders-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![Kaggle](https://img.shields.io/badge/Data-Kaggle-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/)
 
-This repository contains the research code and materials for the [Women in Mathematics Directed Reading Program (WiM DRP)](https://uwaterloo.ca/women-in-mathematics/directed-reading-research-programs-drp) at the University of Waterloo, Fall 2026. The project team is **The Outliers**.
+This repository contains the research code and materials for the [Women in Mathematics Directed Research Program (WiM DRP)](https://uwaterloo.ca/women-in-mathematics/directed-reading-research-programs-drp) at the University of Waterloo, Fall 2026. The project team is **The Outliers**.
 
 ## Project Overview
 
 Financial fraud is difficult to identify because fraudulent transactions are rare, evolving, and often poorly represented by reliable labels. This project investigates whether unsupervised anomaly detection can identify potentially fraudulent transactions without using fraud labels during model training.
 
-We compare two primary methods, Isolation Forest and Local Outlier Factor (LOF), across three financial transaction datasets. Autoencoders are included as a stretch goal. Labels are withheld during training and are used only after scoring for evaluation and analysis.
+We compare two primary methods, Isolation Forest and Local Outlier Factor (LOF), on the IEEE-CIS Fraud Detection dataset. Autoencoders are included as a stretch goal. Labels are withheld during training and are used only after scoring for evaluation and analysis.
 
 ## Learn More
 
@@ -23,9 +23,9 @@ Explore video explainers covering fraud detection, anomaly detection, Isolation 
 
 ## Research Question
 
-How effectively can unsupervised anomaly detection methods identify financial fraud across datasets with different transaction structures, class imbalance, and feature distributions?
-
-The comparison will consider detection quality, computational cost, sensitivity to preprocessing and contamination assumptions, and how consistently each method transfers across datasets.
+1. **RQ1:** How effectively can Isolation Forest and Local Outlier Factor identify fraudulent transactions in the IEEE-CIS Fraud Detection dataset without using fraud labels during training?
+2. **RQ2:** How does detection quality, precision-recall AUC, ROC AUC, and precision at a fixed review budget, compare between the two methods?
+3. **RQ3:** How do computational cost and sensitivity to preprocessing and contamination-rate assumptions compare between the two methods?
 
 ## Methods
 
@@ -47,15 +47,11 @@ LOF compares the local density around an observation with the density around its
 
 An autoencoder is a neural network trained to reconstruct predominantly normal transaction data. A large reconstruction error can indicate an anomalous transaction. This method will be implemented if time and compute resources permit.
 
-## Potential Datasets
+## Dataset
 
-The project may use the following Kaggle datasets:
+The project uses the **IEEE-CIS Fraud Detection** dataset from Kaggle: identity and transaction features from an e-commerce fraud detection competition.
 
-1. **ULB Credit Card Fraud Detection**: anonymized European card transactions with a highly imbalanced fraud label.
-2. **IEEE-CIS Fraud Detection**: identity and transaction features from an e-commerce fraud detection competition.
-3. **PaySim**: synthetic mobile money transactions with transaction-type, account-balance, and fraud fields.
-
-Download instructions, expected Kaggle identifiers, and data-handling notes are in [data/README.md](data/README.md). Raw data is not committed to this repository. During training, remove or withhold the target label and any direct leakage features; restore the labels only for post-hoc evaluation.
+Download instructions, the expected Kaggle identifier, and data-handling notes are in [data/README.md](data/README.md). Raw data is not committed to this repository. During training, remove or withhold the target label and any direct leakage features; restore the labels only for post-hoc evaluation.
 
 ## Repository Structure
 
@@ -118,14 +114,14 @@ jupyter lab
 
 Run notebooks in this order for each method:
 
-1. Load and inspect the selected dataset.
+1. Load and inspect the IEEE-CIS Fraud Detection dataset.
 2. Separate labels and exclude leakage-prone columns.
 3. Fit preprocessing transformations on the training features only.
 4. Train the anomaly detector without labels.
 5. Save scores and predictions under the matching `results/` directory.
 6. Evaluate against the withheld labels using metrics such as precision-recall AUC, ROC AUC, precision at a fixed review budget, recall, and the confusion matrix.
 
-Keep dataset-specific experiments and outputs clearly named. Because the datasets differ in scale and feature availability, compare methods both within each dataset and across appropriate normalized summaries.
+Keep experiments and outputs clearly named, and compare methods against each other using consistent metrics.
 
 ## Reproducibility Notes
 
@@ -136,7 +132,7 @@ Keep dataset-specific experiments and outputs clearly named. Because the dataset
 
 ## Team
 
-**The Outliers** is the mentee team for the [Women in Mathematics Directed Reading Program](https://uwaterloo.ca/women-in-mathematics/directed-reading-research-programs-drp) at the University of Waterloo, Fall 2026.
+**The Outliers** is the mentee team for the [Women in Mathematics Directed Research Program](https://uwaterloo.ca/women-in-mathematics/directed-reading-research-programs-drp) at the University of Waterloo, Fall 2026.
 
 Project focus: unsupervised learning, anomaly detection, and responsible evaluation for financial fraud detection.
 
