@@ -141,12 +141,12 @@
 <a class="back-link" href="../index.html">&larr; Back to home</a>
 
 <h1>Task 1: Foundations, Unsupervised Learning, Anomaly Detection &amp; Isolation Forest</h1>
-<p class="subtitle">Get comfortable with unsupervised learning and anomaly detection, then start digging into Isolation Forest specifically.</p>
+<p class="subtitle">Get comfortable with unsupervised learning and anomaly detection, then start exploring Isolation Forest specifically.</p>
 
 <hr>
 
 <h2>Overview</h2>
-<p>This is everyone's first task for the DRP. This week is about getting context, not depth: watch the videos, skim the vignette, and write up a short report. The original Isolation Forest paper and the deeper dive come next week. Everything below is free, no logins or subscriptions required.</p>
+<p>This is everyone's first task for the DRP. This week is about getting context: watch the videos, skim the vignette, and write up a short report. The original Isolation Forest paper and the deeper dive come next week. Everything below is free, no logins or subscriptions required.</p>
 
 <h2>Key Points</h2>
 
@@ -165,14 +165,9 @@
   <p style="margin:4px 0 0"><a href="https://cran.r-project.org/web/packages/isotree/vignettes/An_Introduction_to_Isolation_Forests.html">An Introduction to Isolation Forests</a> (David Cortes), an accessible walkthrough of the actual math: path length, the c(n) normalization constant, and the anomaly score formula.</p>
 </div>
 
-<div class="card">
-  <span class="tag">Dataset</span>
-  <p style="margin:4px 0">Load the IEEE-CIS Fraud Detection dataset and explore its structure: which columns are raw vs. anonymized V-features.</p>
-</div>
-
 <div class="assignment">
   <h2>Assignment 1: Report</h2>
-  <p>This week is about getting context, not depth. By the end of your exploration, you should be able to explain, in your own words:</p>
+  <p>This week is about getting context. By the end of your exploration, you should be able to explain, in your own words:</p>
   <ul>
     <li>What is unsupervised learning?</li>
     <li>What is anomaly detection?</li>
@@ -265,17 +260,22 @@
 
 <div class="card">
   <span class="tag">Next week</span>
-  <p style="margin:4px 0 0">Start reading the original paper: Liu, Ting &amp; Zhou (2008), <a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf">"Isolation Forest"</a>, free PDF hosted by the authors. This is the canonical source; the vignette above gives you the intuition to read it more easily.</p>
+  <p style="margin:4px 0 0">Start reading the original paper: Liu, Ting &amp; Zhou (2008), <a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf">"Isolation Forest"</a>. Introduces Isolation Forest, isolating anomalies via random recursive partitioning instead of profiling normal points.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Next week</span>
+  <p style="margin:4px 0 0"><a href="https://arxiv.org/pdf/2105.06314">"Explainable Machine Learning for Fraud Detection"</a> (Ismini Psychoula, Andreas Gutmann, Pradip Mainali, S. H. Lee, Paul Dunphy &amp; Fabien A. P. Petitcolas, OneSpan Innovation Centre, Cambridge, UK). Surveys and evaluates explainability techniques for making fraud-detection models' decisions interpretable to analysts.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Dataset</span>
+  <p style="margin:4px 0">Load the IEEE-CIS Fraud Detection dataset and explore its structure: which columns are raw vs. anonymized V-features.</p>
 </div>
 
 <div class="card">
   <span class="tag">Optional reading</span>
-  <p style="margin:4px 0 0"><a href="https://journals.ums.ac.id/index.php/khif/article/view/10520">"Performance Analysis of Isolation Forest Algorithm in Fraud Detection of Credit Card Transactions"</a> (Indra Waspada et al., <i>Khazanah Informatika: Jurnal Ilmu Komputer dan Informatika</i>, 2020). Published in a peer-reviewed journal rather than a preprint, and it uses the IEEE-CIS Fraud Detection dataset, the same one we're using. It's a results/performance paper, not a dense theory paper, reporting straightforward metrics (accuracy 97.4%, AUC-ROC 92.7%) against baselines like logistic regression and SVM, so it reads more easily than a methods-focused paper.</p>
-</div>
-
-<div class="card">
-  <span class="tag">Optional reading</span>
-  <p style="margin:4px 0 0"><a href="https://arxiv.org/pdf/2105.06314">"Explainable Machine Learning for Fraud Detection"</a> (Ismini Psychoula, Andreas Gutmann, Pradip Mainali, S. H. Lee, Paul Dunphy &amp; Fabien A. P. Petitcolas, OneSpan Innovation Centre, Cambridge, UK). A deeper, methods-focused look at making fraud-detection models interpretable.</p>
+  <p style="margin:4px 0 0"><a href="https://journals.ums.ac.id/index.php/khif/article/view/10520">"Performance Analysis of Isolation Forest Algorithm in Fraud Detection of Credit Card Transactions"</a> (Indra Waspada et al.). Benchmarks Isolation Forest against logistic regression and SVM on the IEEE-CIS dataset, reporting 97.4% accuracy and 92.7% AUC-ROC.</p>
 </div>
 
 <p class="updated">Last updated: 2026-09-18</p>
