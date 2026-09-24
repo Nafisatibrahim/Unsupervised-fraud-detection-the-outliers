@@ -24,7 +24,7 @@ Explore video explainers covering fraud detection, anomaly detection, Isolation 
 ## Research Question
 
 1. **RQ1:** How effectively can Isolation Forest and Local Outlier Factor identify fraudulent transactions in the IEEE-CIS Fraud Detection dataset without using fraud labels during training?
-2. **RQ2:** How does detection quality, precision-recall AUC, ROC AUC, and precision at a fixed review budget, compare between the two methods?
+2. **RQ2:** How does detection quality (precision-recall AUC, ROC AUC, and precision at a fixed review budget) compare between the two methods?
 3. **RQ3:** How do computational cost and sensitivity to preprocessing and contamination-rate assumptions compare between the two methods?
 
 ## Methods
