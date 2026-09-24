@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task 2: The Original Isolation Forest Paper</title>
+<style>
+  :root {
+    --dark: #241019;
+    --accent: #C2185B;
+    --accent-mid: #E91E8C;
+    --light-bg: #FCE4EC;
+    --card-bg: #FFFFFF;
+    --muted: #6a4a56;
+  }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--dark);
+    background: var(--light-bg);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+    line-height: 1.6;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 18px;
+    margin-top: 0;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid var(--accent-mid);
+    margin: 32px 0;
+  }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: var(--accent);
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 6px;
+    margin-top: 40px;
+  }
+  p, li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+  }
+  ul {
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 12px;
+  }
+  li ul {
+    margin-top: 6px;
+  }
+  a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(36,16,25,0.08);
+  }
+  .tag {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-bottom: 8px;
+  }
+  .assignment {
+    background: var(--dark);
+    color: #FBF6F8;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 16px;
+  }
+  .assignment h2 {
+    color: #F8BBD9;
+    border-bottom: 2px solid #3A1928;
+  }
+  .assignment li {
+    color: #FBF6F8;
+  }
+  .updated {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 48px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../index.html">&larr; Back to home</a>
+
+<h1>Task 2: The Original Isolation Forest Paper</h1>
+<p class="subtitle">Read the paper that started it all, and understand the core idea behind Isolation Forest.</p>
+
+<hr>
+
+<h2>Key Points</h2>
+
+<div class="card">
+  <span class="tag">Reading</span>
+  <p style="margin:4px 0 0">Start reading the original paper: Liu, Ting &amp; Zhou (2008), <a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf">"Isolation Forest"</a>. The paper introduces Isolation Forest, which isolates anomalies via random recursive partitioning instead of profiling normal points.</p>
+</div>
+
+<div class="assignment">
+  <h2>Assignment 2: Annotate the Paper</h2>
+  <p>This paper is short, but it can be dense if you've never read a research paper before. Read it slowly, and don't worry about following every equation on the first pass. Read and highlight or annotate the PDF as you go, marking whatever you find important, confusing, or worth coming back to. A few things to look for as you read:</p>
+  <ul>
+    <li>What two properties do anomalies have that Isolation Forest relies on? (Hint: the paper describes them as "few" and "different.")</li>
+    <li>What is an isolation tree, and how is one built?</li>
+    <li>Why do anomalies tend to get isolated in fewer random splits than normal points?</li>
+    <li>Without deriving the full formula, what does an anomaly score close to 1 mean? What about a score close to 0.5?</li>
+    <li>What problems do distance-based or density-based anomaly detection methods run into that Isolation Forest avoids?</li>
+    <li>Why is Isolation Forest fast and memory-efficient compared to those other methods?</li>
+  </ul>
+  <p>Once you're done, upload your annotated PDF to the shared Google Drive folder.</p>
+</div>
+
+<h2>Coming up next</h2>
+
+<div class="card">
+  <span class="tag">Dataset</span>
+  <p style="margin:4px 0">Load the IEEE-CIS Fraud Detection dataset and explore its structure: which columns are raw vs. anonymized V-features.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Next week</span>
+  <p style="margin:4px 0 0"><a href="https://arxiv.org/pdf/2105.06314">"Explainable Machine Learning for Fraud Detection"</a> (Ismini Psychoula, Andreas Gutmann, Pradip Mainali, S. H. Lee, Paul Dunphy &amp; Fabien A. P. Petitcolas, OneSpan Innovation Centre, Cambridge, UK). Surveys and evaluates explainability techniques for making fraud-detection models' decisions interpretable to analysts.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Optional reading</span>
+  <p style="margin:4px 0 0"><a href="https://journals.ums.ac.id/index.php/khif/article/view/10520">"Performance Analysis of Isolation Forest Algorithm in Fraud Detection of Credit Card Transactions"</a> (Indra Waspada et al.). Evaluates Isolation Forest on the ULB credit card dataset, reporting a testing ROC-AUC of about 97.4%.</p>
+</div>
+
+<p class="updated">Last updated: 2026-09-24</p>
+
+</body>
+</html>
