@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task 3: Hands-On with the IEEE-CIS Dataset</title>
+<style>
+  :root {
+    --dark: #241019;
+    --accent: #C2185B;
+    --accent-mid: #E91E8C;
+    --light-bg: #FCE4EC;
+    --card-bg: #FFFFFF;
+    --muted: #6a4a56;
+  }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--dark);
+    background: var(--light-bg);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+    line-height: 1.6;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 18px;
+    margin-top: 0;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid var(--accent-mid);
+    margin: 32px 0;
+  }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: var(--accent);
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 6px;
+    margin-top: 40px;
+  }
+  p, li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+  }
+  ul {
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 12px;
+  }
+  li ul {
+    margin-top: 6px;
+  }
+  a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  code {
+    background: #F5DDE6;
+    color: var(--dark);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(36,16,25,0.08);
+  }
+  .tag {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-bottom: 8px;
+  }
+  .assignment {
+    background: var(--dark);
+    color: #FBF6F8;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 16px;
+  }
+  .assignment h2 {
+    color: #F8BBD9;
+    border-bottom: 2px solid #3A1928;
+  }
+  .assignment li {
+    color: #FBF6F8;
+  }
+  .updated {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 48px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../index.html">&larr; Back to home</a>
+
+<h1>Task 3: Hands-On with the IEEE-CIS Dataset</h1>
+<p class="subtitle">Load the data, explore it deeply, and build a baseline Isolation Forest.</p>
+
+<hr>
+
+<h2>Key Points</h2>
+
+<div class="card">
+  <span class="tag">Dataset</span>
+  <p style="margin:4px 0 0">Load the IEEE-CIS Fraud Detection dataset (<code>train_transaction.csv</code> and <code>train_identity.csv</code>, merged on <code>TransactionID</code>). Check the shape and the class imbalance in <code>isFraud</code>, and separate the raw columns (<code>TransactionAmt</code>, <code>ProductCD</code>, card type, etc.) from the anonymized <code>V1</code>-<code>V339</code> features.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Implementation</span>
+  <p style="margin:4px 0 0">Using scikit-learn's <code>IsolationForest</code>, fit a baseline model on the transaction features, with <code>isFraud</code> withheld during training. Leave <code>contamination</code> at its default for now, tuning comes later.</p>
+</div>
+
+<div class="assignment">
+  <h2>Assignment 3, Part 1: Data Exploration</h2>
+  <p>Start here, and spend real time on it before touching the model. Dig into the dataset and make graphs, whatever you find interesting is fair game, not just the obvious ones:</p>
+  <ul>
+    <li>Class imbalance: how rare is fraud here, exactly? A bar chart of <code>isFraud</code> counts.</li>
+    <li>Distribution of <code>TransactionAmt</code>, overall and split by fraud vs. not. Try a log scale, the raw distribution is usually very skewed.</li>
+    <li>Categorical features like <code>ProductCD</code> and card type: do any categories have a noticeably higher fraud rate than others?</li>
+    <li>Missing values: which columns are mostly empty, and does missingness itself look different between fraud and non-fraud rows?</li>
+    <li>Anything in the anonymized <code>V1</code>-<code>V339</code> features that stands out, even without knowing what they mean. A correlation heatmap of a subset, or a couple that separate fraud from non-fraud visually.</li>
+  </ul>
+  <p>Write up what you found, in your own words: what surprised you, what confirmed what you expected, and what you'd want to dig into further.</p>
+
+  <h2>Assignment 3, Part 2: Baseline Results Report</h2>
+  <p>Once you've fit the baseline Isolation Forest, write a short report on what it actually did:</p>
+  <ul>
+    <li>Plot the distribution of anomaly scores across all transactions.</li>
+    <li>Pull out the 10 most anomalous transactions. What do they look like compared to a typical transaction?</li>
+    <li>Peek at the withheld labels now: how many of your top anomalies are actually fraud? This is a sanity check, not tuning, don't go back and adjust the model to chase this number.</li>
+  </ul>
+</div>
+
+<h2>Coming up next</h2>
+
+<div class="card">
+  <span class="tag">Next method</span>
+  <p style="margin:4px 0">Local Outlier Factor (LOF) is next: comparing a different way of scoring anomalies, by local density instead of isolation.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Next week</span>
+  <p style="margin:4px 0 0"><a href="https://arxiv.org/pdf/2105.06314">"Explainable Machine Learning for Fraud Detection"</a> (Ismini Psychoula, Andreas Gutmann, Pradip Mainali, S. H. Lee, Paul Dunphy &amp; Fabien A. P. Petitcolas, OneSpan Innovation Centre, Cambridge, UK). Surveys and evaluates explainability techniques for making fraud-detection models' decisions interpretable to analysts.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Optional reading</span>
+  <p style="margin:4px 0 0"><a href="https://journals.ums.ac.id/index.php/khif/article/view/10520">"Performance Analysis of Isolation Forest Algorithm in Fraud Detection of Credit Card Transactions"</a> (Indra Waspada et al.). Evaluates Isolation Forest on the ULB credit card dataset, reporting a testing ROC-AUC of about 97.4%.</p>
+</div>
+
+<p class="updated">Last updated: 2026-10-01</p>
+
+</body>
+</html>
