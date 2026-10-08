@@ -31,6 +31,9 @@ kaggle.json
 # Personal notes (kept local, not shared across branches)
 notes/
 
+# Personal workspace
+workspace/
+
 # OS and editor files
 .DS_Store
 Thumbs.db
