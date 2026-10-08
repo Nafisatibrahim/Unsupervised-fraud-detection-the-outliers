@@ -146,6 +146,22 @@
   <p style="margin:4px 0 0">Using scikit-learn's <code>IsolationForest</code>, fit a baseline model on the transaction features, with <code>isFraud</code> withheld during training. Leave <code>contamination</code> at its default for now, tuning comes later.</p>
 </div>
 
+<h2>About the Data</h2>
+
+<div class="card">
+  <p style="margin:4px 0 0">The full dataset, rules, and file downloads are on <a href="https://www.kaggle.com/competitions/ieee-fraud-detection">Kaggle: IEEE-CIS Fraud Detection</a>. It's provided by Vesta Corporation, a payment service company, from real-world e-commerce transactions.</p>
+</div>
+
+<div class="card">
+  <span class="tag">train_transaction.csv</span>
+  <p style="margin:4px 0 0">About 590,540 rows, one per transaction, joined to the identity file on <code>TransactionID</code>. Columns include <code>TransactionDT</code> (a time offset in seconds from an unspecified reference date, not a real timestamp), <code>TransactionAmt</code> (USD), <code>ProductCD</code>, <code>card1</code>-<code>card6</code> (card type, category, issuing bank, country), <code>addr1</code>/<code>addr2</code>, <code>P_emaildomain</code>/<code>R_emaildomain</code>, <code>C1</code>-<code>C14</code> (counting features, e.g. how many addresses are tied to the card), <code>D1</code>-<code>D15</code> (time deltas, e.g. days since a previous transaction), <code>M1</code>-<code>M9</code> (match flags, e.g. whether the name on the card matches the name on the address), and <code>V1</code>-<code>V339</code> (Vesta's own engineered features). The target is <code>isFraud</code>, a binary label with roughly a 3.5% fraud rate. Vesta withholds the exact meaning of the C, D, M, and V columns for privacy reasons, so some of this is inherently a black box, you don't need to know what a column means to notice it behaves differently for fraud vs. not.</p>
+</div>
+
+<div class="card">
+  <span class="tag">train_identity.csv</span>
+  <p style="margin:4px 0 0">About 144,233 rows, far fewer than the transaction file, not every transaction has identity data attached, so the join is a left join and plenty of rows will have missing identity columns entirely. It holds network and device information collected by Vesta's fraud protection system: things like IP, ISP, and proxy signals, plus device and browser fingerprints (<code>DeviceType</code>, <code>DeviceInfo</code>). The <code>id_01</code>-<code>id_38</code> columns are masked the same way as the transaction file's C/D/M columns; the numeric ones (roughly <code>id_01</code>-<code>id_11</code>) cover things like device rating, IP/proxy rating, and behavioral signals such as login attempts or time spent on a page.</p>
+</div>
+
 <div class="assignment">
   <h2>Assignment 3, Part 1: Data Exploration</h2>
   <p>Start here, and spend real time on it before touching the model. Dig into the dataset and make graphs, whatever you find interesting is fair game, not just the obvious ones:</p>
@@ -158,8 +174,8 @@
   </ul>
   <p>Write up what you found, in your own words: what surprised you, what confirmed what you expected, and what you'd want to dig into further.</p>
 
-  <h2>Assignment 3, Part 2: Baseline Results Report</h2>
-  <p>Once you've fit the baseline Isolation Forest, write a short report on what it actually did:</p>
+  <h2>Assignment 3, Part 2: Baseline Results Report (Stretch Goal)</h2>
+  <p>This part is a stretch goal. Part 1 is the priority this week, focus your time there, and it's okay if you don't get to this. If you do have time left over, fit the baseline Isolation Forest and write a short report on what it actually did:</p>
   <ul>
     <li>Plot the distribution of anomaly scores across all transactions.</li>
     <li>Pull out the 10 most anomalous transactions. What do they look like compared to a typical transaction?</li>
