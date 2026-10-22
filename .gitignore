@@ -31,6 +31,9 @@ kaggle.json
 # Personal notes (kept local, not shared across branches)
 notes/
 
+# Nafisat's personal working folder (kept local, not shared across branches)
+00_nafisat/
+
 # OS and editor files
 .DS_Store
 Thumbs.db
