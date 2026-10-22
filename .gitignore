@@ -33,6 +33,8 @@ notes/
 
 # Personal workspace
 workspace/
+# Nafisat's personal working folder (kept local, not shared across branches)
+00_nafisat/
 
 # OS and editor files
 .DS_Store
