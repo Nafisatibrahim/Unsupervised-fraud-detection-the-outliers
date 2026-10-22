@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task 5: Local Outlier Factor</title>
+<style>
+  :root {
+    --dark: #241019;
+    --accent: #C2185B;
+    --accent-mid: #E91E8C;
+    --light-bg: #FCE4EC;
+    --card-bg: #FFFFFF;
+    --muted: #6a4a56;
+  }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--dark);
+    background: var(--light-bg);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+    line-height: 1.6;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 18px;
+    margin-top: 0;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid var(--accent-mid);
+    margin: 32px 0;
+  }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: var(--accent);
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 6px;
+    margin-top: 40px;
+  }
+  p, li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+  }
+  ul {
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 12px;
+  }
+  li ul {
+    margin-top: 6px;
+  }
+  a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  code {
+    background: #F5DDE6;
+    color: var(--dark);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(36,16,25,0.08);
+  }
+  .tag {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-bottom: 8px;
+  }
+  .assignment {
+    background: var(--dark);
+    color: #FBF6F8;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 16px;
+  }
+  .assignment h2 {
+    color: #F8BBD9;
+    border-bottom: 2px solid #3A1928;
+  }
+  .assignment li {
+    color: #FBF6F8;
+  }
+  .updated {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 48px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../index.html">&larr; Back to home</a>
+
+<h1>Task 5: Local Outlier Factor</h1>
+<p class="subtitle">Read the paper that introduces LOF, then baseline it on the same data as Isolation Forest.</p>
+
+<hr>
+
+<h2>Key Points</h2>
+
+<div class="card">
+  <span class="tag">Reading</span>
+  <p style="margin:4px 0 0">Start reading the original paper: Breunig, Kriegel, Ng &amp; Sander (2000), <a href="https://sigmodrecord.org/?smd_process_download=1&download_id=6631">"LOF: Identifying Density-Based Local Outliers"</a>. Instead of isolating points with random splits, LOF scores each point by comparing its local density to the density of its neighbors, a point in a notably sparser neighborhood than its neighbors gets a high score.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Implementation</span>
+  <p style="margin:4px 0 0">Using scikit-learn's <code>LocalOutlierFactor</code>, fit a baseline model with default parameters on the same features used for the Isolation Forest baseline in Task 3. Labels withheld during <code>fit</code>, same as before.</p>
+</div>
+
+<div class="assignment">
+  <h2>Assignment 5, Part 1: Annotate the Paper (Scoped Reading)</h2>
+  <p>This paper is more math-heavy than the Isolation Forest one. Read in this order and it'll make sense much faster:</p>
+  <ol>
+    <li>The abstract, the introduction, and the motivating two-cluster figure (it's early in the introduction, a dense cluster, a sparse cluster, and one point just outside the dense cluster). That figure is the whole intuition in one picture, find it before you read anything else.</li>
+    <li>Section 3 (definitions). Read the definitions themselves, skip the lemmas and proofs, they're not what you need here.</li>
+    <li>A short look at the real-data results section, just enough to see what LOF caught that other methods missed.</li>
+  </ol>
+  <p>Highlight or annotate the PDF as you go, marking whatever you find important, confusing, or worth coming back to. Upload your annotated PDF to the shared Drive folder when done.</p>
+
+  <p><b>Five definitions, in order, that Section 3 is building toward:</b></p>
+  <ul>
+    <li><b>k-distance</b> of a point: the distance to its k-th nearest neighbor.</li>
+    <li><b>k-neighborhood</b>: the points within that distance.</li>
+    <li><b>Reachability distance</b>: the distance from A to B, but never smaller than B's k-distance. This smooths out noise for points that sit very close together.</li>
+    <li><b>Local reachability density (LRD)</b>: the inverse of the average reachability distance from a point to its neighbors. High density means close neighbors.</li>
+    <li><b>LOF</b>: the average ratio of the neighbors' LRD to the point's own LRD.</li>
+  </ul>
+
+  <p><b>Plain-language intuition:</b> LOF asks "is this point's neighborhood much sparser than the neighborhoods of the points around it?" A score near 1 means about as dense as its neighbors, an inlier. A score well above 1 means much sparser than its neighbors, a local outlier.</p>
+
+  <p>The word "local" is the whole point. A point in a sparse cluster isn't an outlier just because its cluster is sparse, that's exactly what a single global density threshold would get wrong, and exactly what the two-cluster figure is showing you. For the fraud angle: a transaction that's normal for one customer segment may be suspicious for another, same local-vs-global distinction.</p>
+
+  <p style="font-style:italic">Optional, but doing it once makes the definitions stick: hand-compute LOF for 6-8 points laid out on a 1D number line. It's a few minutes of arithmetic and the five definitions stop being abstract.</p>
+
+  <h2>Assignment 5, Part 2: Build the Baseline on Real Data</h2>
+  <p>Fit the default-parameter <code>LocalOutlierFactor</code> on the same data as the Isolation Forest baseline and plot the score distribution, then sanity-check against labels across both the top 10 and the top 3.5% by score. With 401 features, fitting the full dataset can take around 2 hours, start with a 20,000-30,000 row subsample instead.</p>
+</div>
+
+<h2>Coming up next</h2>
+
+<div class="card">
+  <span class="tag">Optional reading</span>
+  <p style="margin:4px 0 0"><a href="https://arxiv.org/pdf/2105.06314">"Explainable Machine Learning for Fraud Detection"</a> (Ismini Psychoula, Andreas Gutmann, Pradip Mainali, S. H. Lee, Paul Dunphy &amp; Fabien A. P. Petitcolas, OneSpan Innovation Centre, Cambridge, UK). Surveys and evaluates explainability techniques for making fraud-detection models' decisions interpretable to analysts.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Optional reading</span>
+  <p style="margin:4px 0 0"><a href="https://journals.ums.ac.id/index.php/khif/article/view/10520">"Performance Analysis of Isolation Forest Algorithm in Fraud Detection of Credit Card Transactions"</a> (Indra Waspada et al.). Evaluates Isolation Forest on the ULB credit card dataset, reporting a testing ROC-AUC of about 97.4%.</p>
+</div>
+
+<p class="updated">Last updated: 2026-10-22</p>
+
+</body>
+</html>
