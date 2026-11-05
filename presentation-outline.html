@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Presentation Outline</title>
+<style>
+  :root {
+    --dark: #241019;
+    --accent: #C2185B;
+    --accent-mid: #E91E8C;
+    --light-bg: #FCE4EC;
+    --card-bg: #FFFFFF;
+    --muted: #6a4a56;
+  }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--dark);
+    background: var(--light-bg);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+    line-height: 1.6;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 18px;
+    margin-top: 0;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid var(--accent-mid);
+    margin: 32px 0;
+  }
+  p, li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+  }
+  ol {
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 12px;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(36,16,25,0.08);
+  }
+  .tag {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-bottom: 8px;
+  }
+  .updated {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 48px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="index.html">&larr; Back to home</a>
+
+<h1>Presentation Outline</h1>
+<p class="subtitle">Slide-by-slide outline draft, finalized with the team at Meeting 1.</p>
+
+<hr>
+
+<div class="card">
+  <span class="tag">Draft</span>
+  <ol>
+    <li>Title slide: project name, team, WiM DRP, date</li>
+    <li>The problem: fraud is rare, evolving, and poorly labeled, why that rules out plain supervised learning</li>
+    <li>Research questions (RQ1-3)</li>
+    <li>Dataset: IEEE-CIS, scale, what preprocessing did to it</li>
+    <li>Method: Isolation Forest, one-sentence intuition, the parameters that mattered when tuning it</li>
+    <li>Method: LOF, one-sentence intuition, the parameters that mattered when tuning it</li>
+    <li>Isolation Forest results: baseline vs. tuned, the clearest plot or metric</li>
+    <li>LOF results: baseline vs. tuned, the clearest plot or metric</li>
+    <li>Side-by-side comparison: ROC-AUC, PR-AUC, precision at a fixed review budget, runtime (Task 7's deliverable)</li>
+    <li>Strengths and weaknesses: a short synthesis of where each method wins</li>
+    <li>Limitations: label noise, sensitivity to contamination/threshold choices, LOF's cost in 401 dimensions</li>
+    <li>Conclusion: answering RQ1-3 directly</li>
+    <li>Questions</li>
+    <li>References</li>
+    <li>Appendix: full feature list and preprocessing details</li>
+    <li>Appendix: metric definitions (ROC-AUC, PR-AUC, precision, recall)</li>
+    <li>Appendix: fine-tuning, parameter values tried for both methods</li>
+    <li>Appendix: LOF runtime benchmark details</li>
+  </ol>
+</div>
+
+<img src="assets/uwaterloo_wim_transparent.png" alt="University of Waterloo and Women in Mathematics logos" style="height:32px;width:auto;display:block;margin:32px 0 0">
+
+<p class="updated">Last updated: 2026-10-22</p>
+
+</body>
+</html>

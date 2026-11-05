@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Task 6: Fine-Tuning Local Outlier Factor</title>
+<style>
+  :root {
+    --dark: #241019;
+    --accent: #C2185B;
+    --accent-mid: #E91E8C;
+    --light-bg: #FCE4EC;
+    --card-bg: #FFFFFF;
+    --muted: #6a4a56;
+  }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--dark);
+    background: var(--light-bg);
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+    line-height: 1.6;
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--dark);
+  }
+  .subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 18px;
+    margin-top: 0;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid var(--accent-mid);
+    margin: 32px 0;
+  }
+  h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: var(--accent);
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 6px;
+    margin-top: 40px;
+  }
+  p, li {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+  }
+  ul {
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 12px;
+  }
+  li ul {
+    margin-top: 6px;
+  }
+  a {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  code {
+    background: #F5DDE6;
+    color: var(--dark);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(36,16,25,0.08);
+  }
+  .tag {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 3px 12px;
+    margin-bottom: 8px;
+  }
+  .assignment {
+    background: var(--dark);
+    color: #FBF6F8;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-top: 16px;
+  }
+  .assignment h2 {
+    color: #F8BBD9;
+    border-bottom: 2px solid #3A1928;
+  }
+  .assignment li {
+    color: #FBF6F8;
+  }
+  .updated {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 48px;
+  }
+  .back-link {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../index.html">&larr; Back to home</a>
+
+<h1>Task 6: Fine-Tuning Local Outlier Factor</h1>
+<p class="subtitle">Same idea as Task 4: change one LOF parameter at a time and see what actually moves.</p>
+
+<hr>
+
+<h2>Key Points</h2>
+
+<div class="card">
+  <span class="tag">Catch up</span>
+  <p style="margin:4px 0 0">If you haven't finished Task 5's baseline yet, start there: fit the default-parameter <code>LocalOutlierFactor</code> on a 20,000-30,000 row subsample, plot the score distribution, and sanity-check against labels across the top 10 and top 3.5%. Everything below builds on that baseline.</p>
+</div>
+
+<div class="card">
+  <span class="tag">Parameters</span>
+  <p style="margin:4px 0 0">scikit-learn's <code>LocalOutlierFactor</code> has a few parameters worth understanding before you tune them: <code>n_neighbors</code> (how many neighbors define a point's local density, default 20), <code>contamination</code> (the expected proportion of outliers, used to set the score threshold, default <code>"auto"</code>), and <code>metric</code> (how distance is measured, default <code>"minkowski"</code> with <code>p=2</code>, i.e. ordinary Euclidean distance). There's also <code>algorithm</code>, which picks how neighbors get found, but with 401 features the tree-based options (<code>ball_tree</code>, <code>kd_tree</code>) stop helping and scikit-learn effectively falls back to brute-force distance computation anyway, so it's not a lever worth tuning here.</p>
+</div>
+
+<div class="assignment">
+  <h2>Assignment 6: Fine-Tune and Compare</h2>
+  <p>Using the same subsample from Task 5, change one parameter at a time and see what actually moves:</p>
+  <ul>
+    <li><b><code>n_neighbors</code>:</b> try a few values (e.g. 5, 20, 50, 100). A small neighborhood makes the score sensitive to very local structure and noisier, a large one smooths it out and makes LOF behave more like a global method. Does the top-flagged set hold steady as you move this, or does it shuffle a lot?</li>
+    <li><b><code>contamination</code>:</b> try the same values as Task 4 (e.g. 0.01, 0.02, roughly the true fraud rate around 0.035, 0.05, 0.1). Like in Isolation Forest, this mostly resets the decision threshold rather than the underlying ranking.</li>
+    <li><b>Subsample size:</b> try a couple of sizes beyond your Task 5 baseline (e.g. 10,000 vs 30,000 vs 50,000 rows). Watch runtime closely, this is the biggest runtime lever for LOF, same role <code>max_samples</code> played for Isolation Forest, but it costs you a lot more here because of the ~O(n²) distance computation.</li>
+  </ul>
+  <p>Write up what you find: which parameter had the biggest effect on your results? Did any setting noticeably change how many of your top-flagged transactions were actually fraud, once you peek at the labels? How does the runtime/quality trade-off here compare to what you saw fine-tuning Isolation Forest in Task 4?</p>
+</div>
+
+<h2>Coming up next</h2>
+
+<div class="card">
+  <span class="tag">Next up</span>
+  <p style="margin:4px 0">With both baselines fine-tuned, next is putting Isolation Forest and LOF side by side: same metrics, same review budget, same subsample, to see where each one actually wins.</p>
+</div>
+
+<p class="updated">Last updated: 2026-10-22</p>
+
+</body>
+</html>
