@@ -106,12 +106,22 @@
     padding: 3px 12px;
     margin-bottom: 8px;
   }
+  .task-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 600px) {
+    .task-grid {
+      grid-template-columns: 1fr;
+    }
+  }
   .task-card {
     display: block;
     background: var(--card-bg);
     border-radius: 14px;
     padding: 20px 24px;
-    margin-bottom: 14px;
     box-shadow: 0 1px 3px rgba(36,16,25,0.08);
     text-decoration: none;
     color: var(--dark);
@@ -156,15 +166,39 @@
     display: block;
     margin: 20px 0;
   }
+  .readiness-bar {
+    display: flex;
+    gap: 4px;
+    margin: 4px 0 0;
+  }
+  .readiness-segment {
+    flex: 1;
+    height: 10px;
+    border-radius: 6px;
+    background: var(--light-bg);
+    border: 1px solid var(--accent-mid);
+  }
+  .readiness-segment.done {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .readiness-segment.in-progress {
+    background: var(--accent-mid);
+    border-color: var(--accent-mid);
+  }
 </style>
 </head>
 <body>
+
+<div style="text-align:right">
+  <img src="assets/uwaterloo_wim_transparent.png" alt="University of Waterloo and Women in Mathematics logos" style="height:64px;width:auto">
+</div>
 
 <h1>Beyond Labels: Unsupervised Anomaly Detection for Financial Fraud Detection</h1>
 
 <img class="banner" src="assets/fraud_detection_banner.svg" alt="Beyond Labels: Unsupervised Fraud Detection, The Outliers banner">
 
-<p class="subtitle">Research code and materials for the Women in Mathematics Directed Research Program (WiM DRP), University of Waterloo, Fall 2026. Project team: The Outliers.</p>
+<p class="subtitle">Research code and materials for the Women in Mathematics Directed Research Program (WiM DRP), Faculty of Mathematics - Computer Science, University of Waterloo, Fall 2026. Project team: The Outliers.</p>
 
 <hr>
 
@@ -180,7 +214,25 @@
 </ol>
 
 <h2>Tasks</h2>
+
+<div class="card">
+  <span class="tag">Presentation</span>
+  <p style="margin:4px 0 12px">Target date: December 2, 2026 (to be confirmed, could move to the 3rd, 4th, or 7th).</p>
+  <div class="readiness-bar">
+    <div class="readiness-segment" title="Title and research questions"></div>
+    <div class="readiness-segment" title="Methods (Isolation Forest + LOF)"></div>
+    <div class="readiness-segment" title="Isolation Forest results"></div>
+    <div class="readiness-segment" title="LOF results"></div>
+    <div class="readiness-segment" title="Side-by-side comparison"></div>
+    <div class="readiness-segment" title="Limitations and next steps"></div>
+  </div>
+  <p style="margin:12px 0 0"><a href="presentation-plan.html">See the full meeting plan &rarr;</a></p>
+  <p style="margin:8px 0 0"><a href="presentation-outline.html">See the presentation outline &rarr;</a></p>
+</div>
+
 <p>Weekly tasks for the DRP, in order.</p>
+
+<div class="task-grid">
 
 <a class="task-card" href="tasks/task-1.html">
   <span class="tag">Task 1</span>
@@ -212,7 +264,27 @@
   <p>Read the paper that introduces LOF, then baseline it on the same data as Isolation Forest.</p>
 </a>
 
+<a class="task-card" href="tasks/task-6.html">
+  <span class="tag">Task 6</span>
+  <h3>Fine-Tuning Local Outlier Factor</h3>
+  <p>Same idea as Task 4: change one LOF parameter at a time and see what actually moves.</p>
+</a>
+
+<a class="task-card" href="tasks/task-7.html">
+  <span class="tag">Task 7</span>
+  <h3>Comparing Isolation Forest and LOF</h3>
+  <p>Put both tuned models side by side, then start outlining the presentation.</p>
+</a>
+
+<a class="task-card" href="tasks/task-8.html">
+  <span class="tag">Task 8</span>
+  <h3>Presentation and Final Deliverable</h3>
+  <p>Turn the Task 7 comparison into the final slides. This is the last task.</p>
+</a>
+
 <div class="task-placeholder">More tasks will appear here as they're added.</div>
+
+</div>
 
 <h2>Methods</h2>
 
@@ -237,7 +309,9 @@
 <h2>License</h2>
 <p>See <a href="LICENSE">LICENSE</a> for the repository license. Dataset licenses and terms are determined by the respective Kaggle dataset owners and must be reviewed before redistribution.</p>
 
-<p class="updated">Last updated: 2026-09-18</p>
+<img src="assets/uwaterloo_wim_transparent.png" alt="University of Waterloo and Women in Mathematics logos" style="height:32px;width:auto;display:block;margin:32px 0 0">
+
+<p class="updated">Last updated: 2026-10-22</p>
 
 </body>
 </html>
