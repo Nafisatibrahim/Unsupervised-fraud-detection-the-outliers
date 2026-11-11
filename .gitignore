@@ -14,7 +14,7 @@ ENV/
 
 # Local data and generated results
 data/raw/
-data/processed/
+data/cleaned/
 results/**/*.csv
 results/**/*.json
 results/**/*.parquet

@@ -1,4 +1,4 @@
-# Beyond Labels: Unsupervised Anomaly Detection for Financial Fraud Detection
+# Beyond Labels: Unsupervised Anomaly Detection for Financial Fraud
 
 ![Beyond Labels: Unsupervised Fraud Detection animated banner](assets/fraud_detection_banner.gif)
 
