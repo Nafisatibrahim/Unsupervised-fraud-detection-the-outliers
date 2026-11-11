@@ -7,7 +7,7 @@ Raw and processed datasets are intentionally excluded from version control. Down
 1. Create or sign in to a Kaggle account.
 2. Accept any competition or dataset rules required by Kaggle.
 3. Configure the Kaggle API. The standard setup is to download `kaggle.json` from the Kaggle account settings page and place it in the location expected by the Kaggle CLI. Do not commit this file.
-4. From the repository root, create `data/raw/ieee_cis/` for the downloaded dataset.
+4. From the repository root, create `data/raw/` for the downloaded dataset.
 
 ## Dataset
 
@@ -16,10 +16,10 @@ Raw and processed datasets are intentionally excluded from version control. Down
 Competition page: <https://www.kaggle.com/competitions/ieee-fraud-detection>
 
 ```bash
-kaggle competitions download -c ieee-fraud-detection -p data/raw/ieee_cis
+kaggle competitions download -c ieee-fraud-detection -p data/raw
 ```
 
-Unzip the downloaded archive into `data/raw/ieee_cis/`. The data is split across transaction and identity files. The target is typically `isFraud` in the training transaction data. Competition access and rules may be required.
+Unzip the downloaded archive into `data/raw/`, so `train_transaction.csv` and `train_identity.csv` sit directly inside it. The data is split across transaction and identity files. The target is typically `isFraud` in the training transaction data. Competition access and rules may be required.
 
 ## Data Handling
 
