@@ -1,0 +1,381 @@
+%% beamerthemeWaterloo.sty
+%% A Beamer theme for a thesis talk at the University of Waterloo (Faculty of Mathematics).
+%% Colours from the University of Waterloo brand guide (uwaterloo.ca/brand):
+%%   University palette: gold levels 1-4 and black; Faculty of Mathematics pink as the accent.
+%% Fonts: Barlow Condensed (titles; Waterloo's approved alternate to Bureau Grotesque) and Barlow (text),
+%%   both from the fonts/ folder (SIL Open Font License). Compile with XeLaTeX or LuaLaTeX.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeWaterloo}[2026/10/19 University of Waterloo thesis talk theme v2]
+
+\RequirePackage{iftex}
+\ifPDFTeX
+  \PackageError{beamerthemeWaterloo}{This theme needs XeLaTeX or LuaLaTeX}%
+    {On Overleaf: Menu > Settings > Compiler > XeLaTeX, then recompile.}
+\fi
+\RequirePackage{fontspec}
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\RequirePackage{tcolorbox}
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{appendixnumberbeamer}
+
+% ---------------------------------------------------------------- colours (University of Waterloo brand guide)
+\definecolor{uwgold1}{HTML}{F2EDA8}      % gold level 1
+\definecolor{uwgold2}{HTML}{FAE100}      % gold level 2
+\definecolor{uwgold}{HTML}{FED34C}       % gold level 3: primary gold
+\definecolor{uwgold4}{HTML}{EAAB00}      % gold level 4
+\definecolor{uwblack}{HTML}{000000}
+\definecolor{uwgreylight}{HTML}{DFDFDF}  % 15% black
+\definecolor{uwgreymid}{HTML}{A2A2A2}    % 35% black
+\definecolor{uwgrey}{HTML}{787878}       % 50% black
+\definecolor{mathpink}{HTML}{A2006E}     % Faculty of Mathematics, digital primary
+\definecolor{mathpinklight}{HTML}{EFBBF0}
+\definecolor{uwink}{HTML}{111111}        % text
+\definecolor{uwhighlight}{HTML}{FCE4EC}  % pale pink: highlighted table rows
+\definecolor{uweqbg}{HTML}{F6F6F4}       % equation box background
+\definecolor{mathpink2}{HTML}{EF60AD}    % Mathematics pink level 2: readable on black
+\definecolor{mathpinkdark}{HTML}{241019} % deepest tone in the pink bar/gradient
+\definecolor{uwsidebar}{HTML}{F3F3F1}    % sidebar background
+
+% ---------------------------------------------------------------- fonts
+\setsansfont{Barlow}[Path=fonts/, Extension=.ttf, Ligatures=TeX, UprightFont=*-Regular, ItalicFont=*-Italic,
+  BoldFont=*-SemiBold, BoldItalicFont=*-SemiBoldItalic, WordSpace=0.8]
+\newfontfamily\uwcondensed{BarlowCondensed}[Path=fonts/, Extension=.ttf, Ligatures=TeX, UprightFont=*-SemiBold, BoldFont=*-Bold]
+\newfontfamily\uwlabelfont{BarlowCondensed}[Path=fonts/, Extension=.ttf, Ligatures=TeX, UprightFont=*-SemiBold,
+  BoldFont=*-Bold, LetterSpace=14]   % letter-spaced, for small uppercase labels
+\newcommand{\nohyphens}{\hyphenpenalty=10000\exhyphenpenalty=10000\relax}   % used in headings
+\newcommand{\tabularnums}{\addfontfeatures{Numbers=Tabular}}   % numbers line up in columns
+\usefonttheme{professionalfonts}
+\usefonttheme[onlymath]{serif}
+\AtBeginDocument{\frenchspacing}   % one space after a full stop or question mark
+
+% ---------------------------------------------------------------- layout and colours of standard elements
+\setbeamersize{sidebar width left=21mm, text margin left=7mm, text margin right=9mm}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=uwink, bg=white}
+\setbeamercolor{structure}{fg=uwink}
+\setbeamercolor{alerted text}{fg=mathpink}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamertemplate{itemize item}{{\color{mathpink}\textbullet}}
+\setbeamertemplate{itemize subitem}{{\color{uwgrey}\textendash}}
+\setbeamertemplate{enumerate item}{{\color{mathpink}\uwcondensed\bfseries\insertenumlabel.}}
+\setbeamertemplate{itemize/enumerate body begin}{\setlength{\itemsep}{1.6mm}}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+% ---------------------------------------------------------------- settings you can change in main.tex
+\newcommand{\uw@seal}{figures/uw_seal.png}
+\newcommand{\sealfile}[1]{\renewcommand{\uw@seal}{#1}}
+\newcommand{\uw@logo}{figures/uw_logo_vert.png}              % colour logo, for light backgrounds
+\newcommand{\uw@logowhite}{figures/uw_logo_vert_white.png}   % white-text logo, for the black title band
+\newcommand{\uw@event}{}      \newcommand{\event}[1]{\renewcommand{\uw@event}{#1}}
+\newcommand{\uw@venue}{}      \newcommand{\venue}[1]{\renewcommand{\uw@venue}{#1}}
+\newcommand{\uw@email}{}      \newcommand{\email}[1]{\renewcommand{\uw@email}{#1}}
+\newcommand{\uw@degree}{}     \newcommand{\degree}[1]{\renewcommand{\uw@degree}{#1}}
+\newcommand{\uw@faculty}{}    \newcommand{\faculty}[1]{\renewcommand{\uw@faculty}{#1}}
+\newcommand{\uw@supervisors}{} \newcommand{\supervisors}[1]{\renewcommand{\uw@supervisors}{#1}}
+\newcommand{\uw@supervisoraffil}{} \newcommand{\supervisoraffil}[1]{\renewcommand{\uw@supervisoraffil}{#1}}
+\newcommand{\uw@university}{University of Waterloo}
+\newcommand{\university}[1]{\renewcommand{\uw@university}{#1}}
+
+% ---------------------------------------------------------------- frame titles
+% An optional small pink label above the title: \begin{frame}[kicker=Outline]{Title}. In the appendix it reads BACKUP
+% and links back to the appendix contents (a frame with label=appendix-contents).
+\newcommand{\uw@framekicker}{}
+\define@key{beamerframe}{kicker}{\gdef\uw@framekicker{#1}}
+\AddToHook{env/frame/before}{\gdef\uw@framekicker{}}   % so the label applies to that frame only
+\newif\ifuw@appendix
+\g@addto@macro\appendix{\global\uw@appendixtrue}
+\newcommand{\uw@kicker}{%
+  \ifuw@appendix
+    {\setlength{\fboxsep}{1.2pt}\colorbox{mathpink}{\color{white}\uwlabelfont\fontsize{6.5}{7}\selectfont BACKUP}}%
+    \hspace{2mm}{\color{uwgrey}\fontsize{6.5}{7}\selectfont\hyperlink{appendix-contents}{Back to appendix contents}}%
+  \else
+    \ifx\uw@framekicker\@empty\else
+      {\color{mathpink}\uwlabelfont\fontsize{7}{8}\selectfont\MakeUppercase{\uw@framekicker}}%
+    \fi
+  \fi}
+\setbeamertemplate{frametitle}{%
+  \vskip 3.5mm
+  \ifuw@appendix\uw@kicker\par\vskip 0.8mm\else\ifx\uw@framekicker\@empty\else\uw@kicker\par\vskip 0.8mm\fi\fi
+  {\color{uwink}\uwcondensed\bfseries\fontsize{19}{20}\selectfont\nohyphens\raggedright\insertframetitle\par}%
+  \ifx\insertframesubtitle\@empty\else
+    \vskip 0.6mm{\color{uwgrey}\fontsize{9.5}{11.5}\selectfont\insertframesubtitle\par}%
+  \fi
+  \vskip 1.5mm}
+
+% ---------------------------------------------------------------- banner: the Waterloo colour bar on every slide
+% Black over four gold levels, lightest to darkest (brand guide). Thicker on the title slide.
+\setbeamertemplate{headline}{%
+  \begin{tikzpicture}
+    \useasboundingbox (0,0) rectangle (\paperwidth,2.8mm);
+    \fill[uwblack] (0,1.6mm) rectangle (\paperwidth,2.8mm);
+    \foreach \barcolour [count=\i from 0] in {mathpinklight, mathpink2, mathpink, mathpinkdark}
+      \fill[\barcolour] (\i*0.25*\paperwidth,0) rectangle (\i*0.25*\paperwidth+0.25*\paperwidth,1.6mm);
+  \end{tikzpicture}}
+
+% ---------------------------------------------------------------- left sidebar: logo and sections (current one in gold)
+\setbeamercolor{sidebar}{bg=uwsidebar}
+\setbeamertemplate{sidebar canvas left}[vertical shading][top=uwsidebar, bottom=uwsidebar]
+\setbeamercolor{section in sidebar}{fg=white, bg=mathpink}
+\setbeamercolor{section in sidebar shaded}{fg=uwgrey, bg=uwsidebar}
+\setbeamertemplate{sidebar left}{%
+  \vskip 5mm
+  \hbox to 21mm{\hfil\includegraphics[width=14mm]{\uw@logo}\hfil}%
+  \vskip 5mm
+  \insertverticalnavigation{21mm}%
+  \vfill}
+% Section number before the name (1. Introduction), except in the appendix
+\newcommand{\uw@secnum}{\ifuw@appendix\else\insertsectionheadnumber.\hspace{1.2mm}\fi}
+\setbeamertemplate{section in sidebar}{%
+  \vbox{\vskip 0.5mm
+    \begin{beamercolorbox}[wd=21mm, leftskip=2.5mm, rightskip=1mm plus 1fil, ht=3.1mm, dp=1.4mm]{section in sidebar}
+      \uwcondensed\bfseries\fontsize{8}{9}\selectfont\uw@secnum\insertsectionhead\par
+    \end{beamercolorbox}}}
+\setbeamertemplate{section in sidebar shaded}{%
+  \vbox{\vskip 0.5mm
+    \begin{beamercolorbox}[wd=21mm, leftskip=2.5mm, rightskip=1mm plus 1fil, ht=3.1mm, dp=1.4mm]{section in sidebar shaded}
+      \uwcondensed\fontsize{8}{9}\selectfont\uw@secnum\insertsectionhead\par
+    \end{beamercolorbox}}}
+
+% ---------------------------------------------------------------- footer bar: name and email | degree | university and page
+\setbeamercolor{foot dark}{fg=white, bg=uwblack}
+\setbeamercolor{foot gold}{fg=white, bg=mathpink}
+\setbeamertemplate{footline}{%
+  \leavevmode\hbox{%
+    \begin{beamercolorbox}[wd=0.22\paperwidth, ht=2.7mm, dp=1.1mm]{foot dark}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.56\paperwidth, ht=2.7mm, dp=1.1mm, center]{foot gold}%
+      \fontsize{6.5}{7}\selectfont\bfseries\uw@degree
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.22\paperwidth, ht=2.7mm, dp=1.1mm, leftskip=2mm plus 1fil, rightskip=4mm]{foot dark}%
+      {\uwcondensed\fontsize{7}{7}\selectfont\ifuw@appendix A\insertframenumber\else\insertframenumber\,/\,\inserttotalframenumber\fi}%
+    \end{beamercolorbox}}}
+
+% ---------------------------------------------------------------- 1. title slide
+% White slide: the Waterloo colour bar on top, the logo top right, a large title with a gold bar beside it, your name
+% and degree bottom left, and the conference, venue and date bottom right.
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[uwblack] (current page.north west) rectangle ($(current page.north east)+(0,-1.6mm)$);
+    \foreach \barcolour [count=\i from 0] in {mathpinklight, mathpink2, mathpink, mathpinkdark}{
+      \fill[\barcolour] ($(current page.north west)+(\i*0.25*\paperwidth,-1.6mm)$)
+        rectangle ($(current page.north west)+(\i*0.25*\paperwidth+0.25*\paperwidth,-4.6mm)$);}
+    \node[anchor=north east, inner sep=0pt] at ($(current page.north east)+(-10mm,-9mm)$)
+      {\includegraphics[height=19mm]{\uw@logo}};
+    \node[anchor=west, text width=135mm, align=left, inner sep=0pt] (title) at ($(current page.west)+(10mm,7mm)$) {%
+      {\color{uwink}\uwcondensed\bfseries\fontsize{26}{28}\selectfont\nohyphens\inserttitle\par}%
+      \ifx\insertsubtitle\@empty\else\vskip 3mm{\color{black!72}\fontsize{10}{13}\selectfont\nohyphens\insertsubtitle\par}\fi};
+    \node[anchor=south west, text width=95mm, align=left, inner sep=0pt] at ($(current page.south west)+(10mm,7mm)$) {%
+      {\color{uwink}\uwcondensed\bfseries\fontsize{11.5}{13}\selectfont\nohyphens\insertauthor\par}%
+      \ifx\uw@supervisors\@empty\else\vskip 0.8mm{\color{uwgrey}\fontsize{8}{10}\selectfont Mentor: \uw@supervisors\par}\fi
+      \vskip 1.4mm
+      {\color{mathpink}\bfseries\fontsize{8.5}{10.5}\selectfont\uw@degree\par}%
+      {\color{uwink}\fontsize{8.5}{10.5}\selectfont\uw@faculty
+        \ifx\uw@faculty\@empty\else\ifx\uw@university\@empty\else\hspace{1.2mm}\textperiodcentered\hspace{1.2mm}\fi\fi\uw@university\par}%
+      };
+    \node[anchor=south east, text width=45mm, align=right, inner sep=0pt] at ($(current page.south east)+(-10mm,7mm)$) {%
+      {\color{uwgrey}\fontsize{8}{10.5}\selectfont\nohyphens\uw@event\par\uw@venue\par\insertdate\par}};
+  \end{tikzpicture}}
+\newcommand{\titleframe}{%
+  {\begin{frame}[plain, noframenumbering]\titlepage\end{frame}}}
+
+% ---------------------------------------------------------------- 3. section divider (automatic)
+% Use \Section[one-line description]{Section title} instead of \section. The sidebar already shows the sections, so
+% divider slides are off; write \uwdividerstrue in main.tex to get a black divider slide at each section.
+\newif\ifuwdividers
+\newcommand{\uw@secdesc}{}
+\newcommand{\Section}[2][]{\gdef\uw@secdesc{#1}\section{#2}}
+\AtBeginSection[]{\ifuwdividers%
+  {\setbeamercolor{background canvas}{bg=uwblack}\setbeamertemplate{footline}{}%
+  \begin{frame}[plain, noframenumbering]
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[anchor=west, inner sep=0pt] (num) at ($(current page.west)+(12mm,0)$)
+        {\color{mathpink2}\uwcondensed\bfseries\fontsize{84}{84}\selectfont\ifnum\value{section}<10 0\fi\arabic{section}};
+      \node[anchor=west, text width=88mm, align=left, inner sep=0pt] at ($(num.east)+(8mm,0)$) {%
+        {\color{mathpink}\rule{14mm}{0.9mm}}\par\vskip 3mm
+        {\color{white}\uwcondensed\bfseries\fontsize{28}{29}\selectfont\nohyphens\secname\par}%
+        \ifx\uw@secdesc\@empty\else\vskip 2mm{\color{uwgreylight}\fontsize{9.5}{12}\selectfont\uw@secdesc\par}\fi};
+    \end{tikzpicture}
+  \end{frame}}\fi}
+
+% ---------------------------------------------------------------- 2. outline list (current section in gold)
+\newcounter{uw@outline}
+\newcommand{\uw@two}[1]{\ifnum\value{#1}<10 0\fi\arabic{#1}}
+\newenvironment{outlinelist}{%
+  \setcounter{uw@outline}{0}\par\vskip 2mm
+  \begin{list}{}{\setlength{\leftmargin}{10mm}\setlength{\labelwidth}{8mm}\setlength{\labelsep}{2mm}%
+    \setlength{\itemsep}{2.2mm}\setlength{\topsep}{0pt}\renewcommand{\makelabel}[1]{##1\hfil}}}
+  {\end{list}}
+\newcommand{\uw@current}{current}
+\newcommand{\outlineitem}[3][]{% [current] {title} {short description, may be empty}
+  \stepcounter{uw@outline}\def\uw@tmp{#1}\def\uw@desc{#3}%
+  \ifx\uw@tmp\uw@current
+    \item[{\setlength{\fboxsep}{1.5pt}\colorbox{mathpink}{\color{white}\uwcondensed\bfseries\fontsize{11}{12}\selectfont\uw@two{uw@outline}}}]
+      {\fontsize{11}{13}\selectfont\bfseries #2}%
+  \else
+    \item[{\color{uwgrey}\uwcondensed\bfseries\fontsize{11}{12}\selectfont\uw@two{uw@outline}}]
+      {\fontsize{11}{13}\selectfont #2}%
+  \fi
+  \ifx\uw@desc\@empty\else\par{\color{uwgrey}\fontsize{7.5}{9}\selectfont #3}\fi}
+
+% ---------------------------------------------------------------- research questions: one row each, label in gold
+% \begin{rqlist} \researchq{RQ1}{short question}{full question} ... \end{rqlist}
+\newenvironment{rqlist}{%
+  \par\begin{list}{}{\setlength{\leftmargin}{17mm}\setlength{\labelwidth}{14mm}\setlength{\labelsep}{3mm}%
+    \setlength{\itemsep}{1.5mm}\setlength{\topsep}{0pt}\setlength{\parsep}{0pt}\renewcommand{\makelabel}[1]{##1\hfil}}}
+  {\end{list}}
+\newcommand{\researchq}[3]{%
+  \item[{\setlength{\fboxsep}{2pt}\colorbox{mathpink}{\color{white}\uwcondensed\bfseries\fontsize{16}{17}\selectfont #1}}]
+    \raggedright{\color{uwink}\uwcondensed\bfseries\fontsize{16}{17}\selectfont #2\par}\vskip 1mm
+    {\fontsize{10.5}{13}\selectfont #3\par}}
+
+% ---------------------------------------------------------------- links
+% \weblink{url}{text}: a clickable link with a thin underline, so readers can see it is a link.
+\newcommand{\weblink}[2]{\href{#1}{\underline{#2}}}
+% \refsup{3}: a pink superscript number that jumps to reference [3] on the References slide.
+\newcommand{\refsup}[1]{\textsuperscript{\hyperlink{ref-#1}{\color{mathpink}\bfseries #1}}}
+
+% ---------------------------------------------------------------- 4. one key figure on gold
+\newcommand{\keyfigure}[3]{% {number} {what it means} {source}
+  \begin{tcolorbox}[colback=mathpink, colframe=mathpink, boxrule=0pt, sharp corners, left=4mm, right=4mm, top=3.5mm, bottom=3.5mm,
+    before upper={\raggedright\nohyphens}]
+    {\color{white}\uwcondensed\bfseries\fontsize{42}{40}\selectfont #1\par}\vskip 1.5mm
+    {\color{white}\fontsize{9}{11}\selectfont #2\par}\vskip 1.2mm
+    {\color{white!80}\fontsize{6.5}{8}\selectfont #3\par}
+  \end{tcolorbox}}
+
+% ---------------------------------------------------------------- 5. key numbers in a row / 14. takeaways
+% \begin{keynumbers}[4] ... \end{keynumbers}: the optional number is how many items are in the row.
+\newcommand{\uw@count}{4}
+\newcommand{\uw@itemwidth}{\dimexpr(\linewidth-5mm*(\uw@count-1))/\uw@count-0.5mm\relax}   % -0.5mm: rounding room
+\newenvironment{keynumbers}[1][4]{\renewcommand{\uw@count}{#1}\par\vskip 5mm\noindent\ignorespaces}{\par}
+\newcommand{\uw@none}{none}
+\newcommand{\keynumber}[4][uwink]{% [rule colour, or none for no rule] {number} {label} {detail}
+  \begin{minipage}[t]{\uw@itemwidth}\raggedright
+    \def\uw@tmp{#1}\ifx\uw@tmp\uw@none\else{\color{#1}\rule{\linewidth}{0.9mm}}\par\vskip 2.5mm\fi
+    {\color{uwink}\uwcondensed\bfseries\fontsize{30}{30}\selectfont #2\par}\vskip 1.5mm
+    {\fontsize{10}{12}\selectfont #3\par}\vskip 1mm
+    {\color{uwgrey}\fontsize{7.5}{9}\selectfont #4\par}
+  \end{minipage}\hspace{5mm}\ignorespaces}
+\newenvironment{takeaways}[1][3]{\renewcommand{\uw@count}{#1}\par\vskip 4mm\noindent\ignorespaces}{\par}
+\newcommand{\takeaway}[3][uwink]{% [rule colour] {heading} {text}
+  \begin{minipage}[t]{\uw@itemwidth}\raggedright
+    {\color{#1}\rule{\linewidth}{0.9mm}}\par\vskip 2.5mm
+    {\color{uwink}\uwcondensed\bfseries\fontsize{17}{18}\selectfont #2\par}\vskip 2mm
+    {\fontsize{10.5}{13}\selectfont #3\par}
+  \end{minipage}\hspace{5mm}\ignorespaces}
+
+% ---------------------------------------------------------------- stat cards: key numbers in equal boxes
+% \begin{statcards}[3] \statcard[mathpink2]{41.8\%}{label}{detail} \statcard{...}{...}{...} ... \end{statcards}
+% The optional colour fills the card (default: light grey). All cards in a row get the same width and height.
+\newenvironment{statcards}[1][3]{\renewcommand{\uw@count}{#1}\par\vskip 3mm\noindent\ignorespaces}{\par}
+\newcommand{\statcard}[4][uweqbg]{%
+  \begin{tcolorbox}[colback=#1, colframe=#1, boxrule=0pt, sharp corners, nobeforeafter, width=\uw@itemwidth,
+    left=3mm, right=3mm, top=2.5mm, bottom=2.5mm, equal height group=uwstatcards, before upper={\raggedright\nohyphens}]
+    {\color{uwink}\uwcondensed\bfseries\fontsize{30}{30}\selectfont #2\par}\vskip 1.5mm
+    {\color{uwink}\fontsize{10}{12}\selectfont #3\par}\vskip 1mm
+    {\color{black!65}\fontsize{7.5}{9}\selectfont #4\par}
+  \end{tcolorbox}\hspace{5mm}\ignorespaces}
+
+% ---------------------------------------------------------------- 6. two columns with a divider
+\newcommand{\comparisoncolumn}[4]{% {small label} {heading} {big number} {text}
+  {\color{mathpink}\uwlabelfont\fontsize{7}{8}\selectfont\MakeUppercase{#1}\par}\vskip 1.5mm
+  {\color{uwink}\uwcondensed\bfseries\fontsize{15}{16}\selectfont #2\par}\vskip 1mm
+  {\color{uwink}\uwcondensed\bfseries\fontsize{34}{32}\selectfont #3\par}\vskip 1.5mm
+  {\fontsize{8.5}{10.5}\selectfont #4\par}}
+\newcommand{\twocolumns}[2]{%
+  \par\vskip 3mm\noindent
+  \begin{minipage}[t]{\dimexpr0.5\linewidth-5mm\relax}\raggedright #1\end{minipage}%
+  \hfill{\color{uwgreylight}\vrule width 0.4pt}\hfill
+  \begin{minipage}[t]{\dimexpr0.5\linewidth-5mm\relax}\raggedright #2\end{minipage}\par}
+
+% ---------------------------------------------------------------- 7. process steps (a sequence with a real order)
+% \begin{process}{5} \processstep{title}{text}{note} ... \processlaststep{title}{text}{note} \end{process}
+\newlength{\uw@stepw}
+\newcounter{uw@step}
+\newenvironment{process}[1]{%
+  \setcounter{uw@step}{0}%
+  \setlength{\uw@stepw}{\dimexpr(\linewidth-4mm*(#1-1))/#1-0.5mm\relax}%
+  \par\vskip 7mm\noindent
+  \rlap{\hspace{4mm}{\color{uwgreylight}\rule[-0.25mm]{\dimexpr(\uw@stepw+4mm)*(#1-1)\relax}{0.5mm}}}\ignorespaces}
+  {\par}
+\newcommand{\uw@step}[4]{% {circle fill} {title} {text} {note}
+  \stepcounter{uw@step}%
+  \begin{minipage}[t]{\uw@stepw}\raggedright
+    \tikz[baseline=(c.center)]\node[circle, draw=uwink, line width=0.6mm, fill=#1, minimum size=8mm, inner sep=0pt,
+      font={\uwcondensed\bfseries\fontsize{11}{11}\selectfont}, text=uwink] (c) {\arabic{uw@step}};\par\vskip 2.5mm
+    {\color{uwink}\uwcondensed\bfseries\fontsize{13}{14}\selectfont #2\par}\vskip 1mm
+    {\color{black!80}\fontsize{9}{11}\selectfont #3\par}\vskip 1mm
+    {\color{mathpink}\bfseries\fontsize{8}{9.5}\selectfont #4\par}
+  \end{minipage}\hspace{4mm}\ignorespaces}
+\newcommand{\processstep}[3]{\uw@step{white}{#1}{#2}{#3}}
+\newcommand{\processlaststep}[3]{\uw@step{mathpink2}{#1}{#2}{#3}}
+
+% ---------------------------------------------------------------- 8. equation box and list of terms
+\newtcolorbox{equationbox}{colback=uweqbg, colframe=mathpink, boxrule=0pt, leftrule=1.6mm, sharp corners,
+  before upper={\raggedright\nohyphens},
+  left=4mm, right=4mm, top=2.5mm, bottom=2.5mm}
+\newcommand{\boxnote}[1]{{\color{uwgrey}\fontsize{6.5}{8}\selectfont #1\par}}
+\newenvironment{terms}{\par\renewcommand{\arraystretch}{1.45}\begin{tabular}{@{}l >{\raggedright\arraybackslash}p{0.78\linewidth}@{}}}{\end{tabular}\par}
+\newcommand{\term}[2]{{\color{uwink}\uwcondensed\bfseries\fontsize{12}{13}\selectfont #1} & {\fontsize{8.5}{10.5}\selectfont #2}\\}
+
+% ---------------------------------------------------------------- 10-11. figures with a caption line
+\newcommand{\figcaption}[1]{{\color{uwgrey}\fontsize{6.5}{8}\selectfont #1\par}}
+\newcommand{\figlabel}[1]{{\color{uwink}\bfseries #1}}
+\newcommand{\fullfigure}[3][0.64]{% [height as share of the text height] {file} {caption}
+  \par\vskip 1mm{\centering\includegraphics[width=\linewidth, height=#1\textheight, keepaspectratio]{#2}\par}%
+  \vskip 1mm\figcaption{#3}}
+\newcommand{\twofigures}[4]{% {file a} {caption a} {file b} {caption b}
+  \par\vskip 2mm\noindent
+  \begin{minipage}[b]{\dimexpr0.5\linewidth-3mm\relax}\centering
+    \includegraphics[width=\linewidth, height=0.56\textheight, keepaspectratio]{#1}\par\vskip 1mm\raggedright\figcaption{#2}%
+  \end{minipage}\hfill
+  \begin{minipage}[b]{\dimexpr0.5\linewidth-3mm\relax}\centering
+    \includegraphics[width=\linewidth, height=0.56\textheight, keepaspectratio]{#3}\par\vskip 1mm\raggedright\figcaption{#4}%
+  \end{minipage}\par}
+
+% ---------------------------------------------------------------- 12. tables
+\newcommand{\tablehead}[1]{{\uwlabelfont\fontsize{7}{8}\selectfont\MakeUppercase{#1}}}
+\setlength{\heavyrulewidth}{0.8pt}
+\setlength{\lightrulewidth}{0.3pt}
+\newcommand{\tablenote}[1]{\par\vskip 1.5mm{\color{uwgrey}\fontsize{6.5}{8}\selectfont #1\par}}
+
+% ---------------------------------------------------------------- 13. big statement (one sentence to remember)
+\newcommand{\highlight}[1]{{\setlength{\fboxsep}{1.5pt}\colorbox{mathpink2}{\strut #1}}}  % short phrases only
+\newcommand{\statementframe}[2]{% {statement} {source line}
+  {\setbeamertemplate{footline}{}%
+  \begin{frame}[plain]
+    \vfill\hspace*{6mm}\begin{minipage}{128mm}\raggedright\nohyphens
+      {\color{uwink}\uwcondensed\fontsize{26}{29}\selectfont #1\par}\vskip 5mm
+      {\color{uwgrey}\fontsize{8}{10}\selectfont #2\par}
+    \end{minipage}\vfill
+  \end{frame}}}
+
+% ---------------------------------------------------------------- 15. references
+\newenvironment{references}{\par\vskip 2mm\fontsize{8}{10.2}\selectfont\raggedright
+  \begin{list}{}{\setlength{\leftmargin}{9mm}\setlength{\labelwidth}{7mm}\setlength{\labelsep}{2mm}%
+    \setlength{\itemsep}{2mm}\setlength{\topsep}{0pt}\renewcommand{\makelabel}[1]{##1\hfil}}}
+  {\end{list}}
+\newcommand{\reference}[2]{% {number} {text}; \refsup{number} on any slide links here
+  \item[{\color{mathpink}\uwcondensed\bfseries\hypertarget{ref-#1}{[#1]}}] #2}
+
+% ---------------------------------------------------------------- 17. closing slide
+\newcommand{\contact}[2]{% {label} {value}
+  \noindent\makebox[19mm][l]{\color{mathpink}\uwlabelfont\fontsize{7}{8}\selectfont\MakeUppercase{#1}}%
+  \parbox[t]{\dimexpr\linewidth-19mm\relax}{\raggedright\fontsize{9}{11}\selectfont #2}\par\vskip 1mm
+  {\color{uwgreylight}\rule{\linewidth}{0.3pt}}\par\vskip 1.6mm}
+\newcommand{\closingframe}[3]{% {heading} {line under it} {\contact rows}
+  {\setbeamertemplate{footline}{}%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture, overlay]
+      \fill[uwblack] (current page.south west) rectangle (current page.north);
+      \node[anchor=west, text width=62mm, align=left, inner sep=0pt] at ($(current page.west)+(12mm,0)$) {%
+        {\color{white}\uwcondensed\bfseries\fontsize{38}{36}\selectfont #1\par}\vskip 3mm
+        {\color{uwgreylight}\fontsize{10}{12}\selectfont #2\par}};
+      \node[anchor=west, text width=62mm, align=left, inner sep=0pt] at ($(current page.center)+(9mm,0)$) {%
+        \includegraphics[width=22mm]{\uw@logo}\par\vskip 5mm #3};
+    \end{tikzpicture}
+  \end{frame}}}
+
+\endinput

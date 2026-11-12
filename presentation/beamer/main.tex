@@ -1,0 +1,339 @@
+% =====================================================================================================================
+%  Beyond Labels: Unsupervised Anomaly Detection for Financial Fraud, The Outliers (WiM DRP, Fall 2026)
+%  Compile with XeLaTeX (Overleaf: Menu > Settings > Compiler > XeLaTeX).
+%  Theme: beamerthemeWaterloo.sty, reused from Nafisat's thesis-talk template. Do not edit the theme file itself,
+%  everything here is placeholder content, same structure as presentation-draft.pptx, replace as Task 7 finishes.
+% =====================================================================================================================
+\documentclass[aspectratio=169, 11pt, t, xcolor={table}]{beamer}   % t: content starts under the title
+\usetheme{Waterloo}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ---------------------------------------------------------------- title slide details
+\title{Beyond Labels: Unsupervised Anomaly Detection for Financial Fraud}
+\author[Chai, Comisso, Crichlow, Mai]{Milly Chai, Olivia Comisso, Brooke Crichlow, and Joyce Mai}
+\degree{Women in Mathematics Directed Research Program}
+\faculty{Faculty of Mathematics - Computer Science}
+\university{}
+\supervisors{Nafisat Ibrahim}
+\venue{Waterloo, ON}
+\date{December 2nd}
+
+% ---------------------------------------------------------------- dashed placeholder box for a plot/figure not made yet
+% \imgplaceholder{height, e.g. 55mm}{label text}
+\newcommand{\imgplaceholder}[2]{%
+  \begin{center}
+  \begin{tikzpicture}
+    \node[draw=uwgrey, dash pattern=on 3pt off 2pt, line width=0.6pt, fill=uwgreylight,
+      minimum width=0.97\linewidth, minimum height=#1, align=center, text width=0.80\linewidth,
+      font=\itshape\fontsize{9}{11}\selectfont, text=uwgrey] {#2};
+  \end{tikzpicture}
+  \end{center}}
+
+\begin{document}
+
+% ---------------------------------------------------------------- 1. title
+\titleframe
+
+% =====================================================================================================================
+\Section{Introduction}
+
+% ---------------------------------------------------------------- 2. the problem
+\begin{frame}{The Problem}
+  \begin{columns}[T, onlytextwidth]
+    \begin{column}{0.56\textwidth}\raggedright\fontsize{11}{14}\selectfont
+      \begin{itemize}
+        \item Fraudulent transactions are rare, evolving, and often poorly represented by reliable labels.
+        \item A model that only learns from past confirmed fraud misses new fraud patterns and mislabeled cases.
+        \item This motivates an unsupervised approach: score every transaction by how unusual it looks, without
+          using fraud labels during training.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.40\textwidth}
+      \keyfigure{[X.X]\%}{of transactions in the IEEE-CIS dataset are labeled fraudulent}{Kaggle competition page}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 3. research questions
+\begin{frame}{Research Questions}
+  \begin{rqlist}
+    \researchq{RQ1}{How effectively can Isolation Forest and LOF identify fraud?}{How effectively can Isolation
+      Forest and LOF identify fraud in IEEE-CIS without using labels during training?}
+    \pause
+    \researchq{RQ2}{How does detection quality compare?}{How does detection quality (precision-recall AUC, ROC
+      AUC, precision at a fixed review budget) compare between the two methods?}
+    \pause
+    \researchq{RQ3}{How do cost and sensitivity compare?}{How do computational cost and sensitivity to
+      preprocessing/contamination assumptions compare between the two methods?}
+  \end{rqlist}
+\end{frame}
+
+% =====================================================================================================================
+\Section{Data}
+
+% ---------------------------------------------------------------- 4. dataset
+\begin{frame}{Dataset: IEEE-CIS Fraud Detection}
+  \begin{keynumbers}[3]
+    \keynumber[none]{590,540}{transactions}{\texttt{train\_transaction.csv}}
+    \keynumber[none]{401}{numeric features}{after cleaning, see \texttt{00\_data\_cleaning.ipynb}}
+    \keynumber[none]{\textasciitilde3.5\%}{fraud rate}{used as the contamination anchor throughout}
+  \end{keynumbers}
+  \vskip 5mm
+  \begin{equationbox}\fontsize{10}{12.5}\selectfont
+    \textbf{Preprocessing:} [describe median imputation, any encoding, what was dropped].
+    \par\vskip 1mm
+    Labels withheld during \texttt{fit}, used only to evaluate scores after the fact.
+  \end{equationbox}
+\end{frame}
+
+% =====================================================================================================================
+\Section{Methods}
+
+% ---------------------------------------------------------------- 5. method: isolation forest
+{\setbeamertemplate{sidebar left}{}\setbeamertemplate{sidebar canvas left}{}
+\begin{frame}
+  \hspace*{-21mm}\begin{minipage}[t]{144mm}
+  {\color{uwink}\uwcondensed\bfseries\fontsize{19}{20}\selectfont Method: Isolation Forest\par}
+  \vskip 4mm
+  \begin{process}{3}
+    \processstep{Core idea}{Randomly partitions the feature space with splits. Anomalies isolate in fewer splits
+      than normal points.}{}
+    \processstep{Parameters tuned}{\texttt{n\_estimators}, \texttt{max\_samples}, \texttt{contamination}}{best
+      values from Task 4}
+    \processlaststep{Result}{[One-sentence takeaway from the tuned baseline]}{}
+  \end{process}
+  \vskip 3mm
+  \imgplaceholder{18mm}{[INSERT: random-partitioning / isolation-path diagram]}
+  \end{minipage}
+\end{frame}}
+
+% ---------------------------------------------------------------- 6. method: LOF
+{\setbeamertemplate{sidebar left}{}\setbeamertemplate{sidebar canvas left}{}
+\begin{frame}
+  \hspace*{-21mm}\begin{minipage}[t]{144mm}
+  {\color{uwink}\uwcondensed\bfseries\fontsize{19}{20}\selectfont Method: Local Outlier Factor\par}
+  \vskip 4mm
+  \begin{process}{3}
+    \processstep{Core idea}{Compares a point's local density to its neighbors'. A point in a notably sparser
+      neighborhood scores high.}{}
+    \processstep{Parameters tuned}{\texttt{n\_neighbors}, \texttt{contamination}, subsample size}{best values
+      from Task 6}
+    \processlaststep{Result}{[One-sentence takeaway from the tuned baseline]}{}
+  \end{process}
+  \vskip 3mm
+  \imgplaceholder{18mm}{[INSERT: local-density / neighborhood diagram]}
+  \end{minipage}
+\end{frame}}
+
+% =====================================================================================================================
+\Section{Results}
+
+% ---------------------------------------------------------------- 7. IF results
+\begin{frame}{Isolation Forest Results}
+  \begin{columns}[T, onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \imgplaceholder{58mm}{[INSERT: score distribution plot\\Task 3/4 notebook]}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      {\fontsize{9}{11}\selectfont\tabularnums\renewcommand{\arraystretch}{1.3}\setlength{\tabcolsep}{3pt}
+      \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X cc@{}}
+        \toprule
+        \tablehead{Metric} & \tablehead{Base} & \tablehead{Tuned} \\
+        \midrule
+        ROC-AUC & [--] & [--] \\
+        PR-AUC & [--] & [--] \\
+        Precision @ 3.5\% & [--] & [--] \\
+        Recall @ 3.5\% & [--] & [--] \\
+        Runtime & [--] & [--] \\
+        \bottomrule
+      \end{tabularx}\par}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- 8. LOF results
+\begin{frame}{LOF Results}
+  \begin{columns}[T, onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \imgplaceholder{58mm}{[INSERT: score distribution plot\\Task 5/6 notebook]}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      {\fontsize{9}{11}\selectfont\tabularnums\renewcommand{\arraystretch}{1.3}\setlength{\tabcolsep}{3pt}
+      \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X cc@{}}
+        \toprule
+        \tablehead{Metric} & \tablehead{Base} & \tablehead{Tuned} \\
+        \midrule
+        ROC-AUC & [--] & [--] \\
+        PR-AUC & [--] & [--] \\
+        Precision @ 3.5\% & [--] & [--] \\
+        Recall @ 3.5\% & [--] & [--] \\
+        Runtime & [--] & [--] \\
+        \bottomrule
+      \end{tabularx}\par}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================================================================
+\Section{Comparison}
+
+% ---------------------------------------------------------------- 9. side-by-side comparison
+\begin{frame}{Side-by-Side Comparison}
+  \vskip 4mm
+  {\fontsize{9.5}{11.5}\selectfont\tabularnums\renewcommand{\arraystretch}{1.3}\setlength{\tabcolsep}{5pt}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X cc@{}}
+    \toprule
+    & \tablehead{Isolation Forest (tuned)} & \tablehead{LOF (tuned)} \\
+    \midrule
+    ROC-AUC & [--] & [--] \\
+    PR-AUC & [--] & [--] \\
+    Precision @ fixed budget & [--] & [--] \\
+    Recall @ fixed budget & [--] & [--] \\
+    Runtime (same sample size) & [--] & [--] \\
+    \bottomrule
+  \end{tabularx}\par}
+  \vskip 2mm
+  \boxnote{[One line: which method ranks fraud higher overall, and what trade-off drives the final pick]}
+\end{frame}
+
+% ---------------------------------------------------------------- 10. strengths and weaknesses
+\begin{frame}{Strengths \& Weaknesses}
+  \twocolumns{%
+    {\color{mathpink}\uwlabelfont\fontsize{7}{8}\selectfont ISOLATION FOREST\par}\vskip 1.5mm
+    {\fontsize{10}{12.5}\selectfont
+    \begin{itemize}
+      \item \textbf{+} strength
+      \item \textbf{+} strength
+      \item \textbf{--} weakness
+    \end{itemize}\par}
+  }{%
+    {\color{mathpink}\uwlabelfont\fontsize{7}{8}\selectfont LOCAL OUTLIER FACTOR\par}\vskip 1.5mm
+    {\fontsize{10}{12.5}\selectfont
+    \begin{itemize}
+      \item \textbf{+} strength
+      \item \textbf{+} strength
+      \item \textbf{--} weakness
+    \end{itemize}\par}
+  }
+\end{frame}
+
+% =====================================================================================================================
+\Section{Conclusion}
+
+% ---------------------------------------------------------------- 11. limitations and next steps
+\begin{frame}{Limitations and Next Steps}
+  \twocolumns{%
+    {\color{mathpink}\uwlabelfont\fontsize{7}{8}\selectfont LIMITATIONS\par}\vskip 1.5mm
+    {\fontsize{10}{12.5}\selectfont
+    \begin{itemize}
+      \item Label noise / unreliable ground truth.
+      \item Sensitivity to contamination/threshold choices.
+      \item LOF's cost in 401 dimensions.
+    \end{itemize}\par}
+  }{%
+    {\color{mathpink}\uwlabelfont\fontsize{7}{8}\selectfont NEXT STEPS\par}\vskip 1.5mm
+    {\fontsize{10}{12.5}\selectfont
+    \begin{itemize}
+      \item Autoencoder stretch goal, if time permits.
+      \item Any follow-up analysis flagged in Task 7.
+    \end{itemize}\par}
+  }
+\end{frame}
+
+% ---------------------------------------------------------------- 12. takeaways
+\begin{frame}{Takeaways}
+  \begin{takeaways}[3]
+    \takeaway[mathpink]{RQ1: detection without labels}{[Headline answer]}\pause
+    \takeaway[mathpink]{RQ2: quality comparison}{[Headline answer]}\pause
+    \takeaway[mathpink]{RQ3: cost \& sensitivity}{[Headline answer]}
+  \end{takeaways}
+\end{frame}
+
+% ---------------------------------------------------------------- 13. thank you
+\closingframe{Thank You}{Questions?}{%
+  \contact{Members}{Milly Chai, Olivia Comisso, Brooke Crichlow, and Joyce Mai}
+  \contact{Mentor}{Nafisat Ibrahim}
+  \contact{Program}{Women in Mathematics Directed Research Program}
+  \contact{University}{University of Waterloo}}
+
+% ---------------------------------------------------------------- 14. references
+\begin{frame}{References}
+  \begin{references}
+    \reference{1}{Liu, F. T., Ting, K. M., \& Zhou, Z.-H. (2008). Isolation Forest. \emph{Proceedings of the
+      IEEE International Conference on Data Mining (ICDM)}.}
+    \reference{2}{Breunig, M. M., Kriegel, H.-P., Ng, R. T., \& Sander, J. (2000). \weblink{https://sigmodrecord.org/?smd_process_download=1&download_id=6631}{LOF: Identifying Density-Based Local Outliers}. \emph{ACM SIGMOD}.}
+    \reference{3}{IEEE-CIS Fraud Detection dataset. \weblink{https://www.kaggle.com/competitions/ieee-fraud-detection}{Kaggle competition page}.}
+    \reference{4}{Psychoula, I., Gutmann, A., Mainali, P., Lee, S. H., Dunphy, P., \& Petitcolas, F. A. P. \weblink{https://arxiv.org/pdf/2105.06314}{Explainable Machine Learning for Fraud Detection}. OneSpan Innovation Centre.}
+    \reference{5}{Waspada, I. et al. \weblink{https://journals.ums.ac.id/index.php/khif/article/view/10520}{Performance Analysis of Isolation Forest Algorithm in Fraud Detection of Credit Card Transactions}.}
+  \end{references}
+\end{frame}
+
+% =====================================================================================================================
+\appendix
+\section{Appendix}
+
+\begin{frame}[label=appendix-contents]{Appendix Contents}
+  \begin{outlinelist}
+    \outlineitem{\hyperlink{app-features}{Feature list and preprocessing}}{}
+    \outlineitem{\hyperlink{app-metrics}{Metric definitions}}{}
+    \outlineitem{\hyperlink{app-tuning}{Fine-tuning: values tried}}{}
+    \outlineitem{\hyperlink{app-runtime}{LOF runtime benchmark}}{}
+  \end{outlinelist}
+\end{frame}
+
+\begin{frame}[label=app-features]{Feature List and Preprocessing}
+  {\fontsize{8}{9.1}\selectfont
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{38mm} >{\raggedright\arraybackslash}X@{}}
+    \toprule
+    \tablehead{Category} & \tablehead{Features} \\
+    \midrule
+    Transaction & amount, product code, card type, \ldots \\
+    Identity & device type, browser, \ldots \\
+    Address / distance & billing/shipping region, distance fields, \ldots \\
+    Counting features & C1-C14 style aggregate counts \\
+    Time-delta features & D1-D15 style, days since event \\
+    Match features & M1-M9 style, yes/no match flags \\
+    \bottomrule
+  \end{tabularx}\par}
+  \tablenote{401 numeric features used after cleaning. [Fill in from 00\_data\_cleaning.ipynb / 01\_eda.ipynb]}
+\end{frame}
+
+\begin{frame}[label=app-metrics]{Metric Definitions}
+  {\fontsize{9}{11}\selectfont
+  \begin{terms}
+    \term{ROC-AUC}{Probability a randomly chosen fraudulent transaction scores higher than a randomly chosen
+      legitimate one. 0.5 = chance, 1 = perfect.}
+    \term{PR-AUC}{Area under the precision-recall curve. More informative than ROC-AUC under heavy class
+      imbalance, relevant given the low fraud rate here.}
+    \term{Precision}{Share of the top-k flagged transactions that are actually fraud.}
+    \term{Recall}{Share of all fraud caught within the top-k flagged transactions.}
+  \end{terms}\par}
+\end{frame}
+
+\begin{frame}[label=app-tuning]{Fine-Tuning: Values Tried}
+  {\fontsize{7.6}{9.2}\selectfont\tabularnums\renewcommand{\arraystretch}{1.15}\setlength{\tabcolsep}{3pt}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{30mm} >{\raggedright\arraybackslash}p{30mm} >{\centering\arraybackslash}p{14mm} >{\centering\arraybackslash}p{14mm}@{}}
+    \toprule
+    \tablehead{Setting} & \tablehead{Isolation Forest} & \tablehead{LOF} & \tablehead{IF chosen} & \tablehead{LOF chosen} \\
+    \midrule
+    Ensemble / neighborhood size & n\_estimators: 50, 100, 200, 500 & n\_neighbors: 5, 20, 50, 100 & [--] & [--] \\
+    Sample size & max\_samples: default, 128, 512, full & subsample: 10k, 30k, 50k rows & [--] & [--] \\
+    Contamination & 0.01, 0.02, \textasciitilde0.035, 0.05, 0.1 & 0.01, 0.02, \textasciitilde0.035, 0.05, 0.1 & [--] & [--] \\
+    \bottomrule
+  \end{tabularx}\par}
+  \tablenote{Same true fraud rate (\textasciitilde3.5\%) used as a contamination anchor for both methods, see Task 4 and Task 6.}
+\end{frame}
+
+\begin{frame}[label=app-runtime]{LOF Runtime Benchmark}
+  \begin{statcards}[3]
+    \statcard{20.24 s}{30,000 rows}{}
+    \statcard{56.29 s}{50,000 rows}{}
+    \statcard[mathpink2]{\textasciitilde2 hours}{590,540 rows}{extrapolated}
+  \end{statcards}
+  \vskip 6mm
+  {\fontsize{10}{12.5}\selectfont Brute-force distance computation scales roughly O($n^2$) with 401 features,
+    this is why Task 5/6 used a subsample instead of the full dataset.\par}
+\end{frame}
+
+\end{document}
